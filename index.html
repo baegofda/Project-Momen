@@ -4,23 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Momenton</title>
-    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/assets/css/reset.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/weather-icons.min.css" />
+    <script src="assets/src/common.js" defer></script>
   </head>
   <body>
     <header id="header">
-      <div class="header__container">
+      <div class="header__search">
         <button class="header__toggle" type="button">Search</button>
-        <form
-          class="header__form"
-          action="http://www.google.co.kr/search"
-          method="get"
-          target="_blank"
-        >
-          <input class="header__form--input" type="text" />
-          <button class="header__form--btn" type="submit"></button>
-        </form>
+        <div class="header__form-container">
+          <form
+            class="header__form"
+            action="http://www.google.co.kr/search"
+            method="get"
+            target="_blank"
+          >
+            <input class="header__form--input" type="text" />
+            <button class="header__form--btn" type="submit"></button>
+          </form>
+        </div>
       </div>
       <div class="header__weather">
         <div class="header__weather--container">
@@ -34,6 +41,31 @@
         <div class="header__weather--location">Samjeon-dong</div>
       </div>
     </header>
-    <main id="main"></main>
+    <section class="container-top">
+      <h1 class="container-top--time">18:45</h1>
+      <div class="container-top__greeting">
+        <h2 class="container-top__greeting--text">What's your name?</h2>
+        <input class="container-top__greeting--input" type="text" />
+      </div>
+      <div class="container-top__focus">
+        <h2 class="container-top__focus--text">
+          What is your main focus for today?
+        </h2>
+        <input class="container-top__focus--input" type="text" />
+      </div>
+    </section>
+    <section class="container-bottom">
+      <div class="container-bottom--loaction">Lorem ipsum dolor sit amet.</div>
+      <blockquote
+        class="container-bottom--text"
+        cite="https://favqs.com/quotes/mahatma-gandhi/58657-truth-never-d-"
+      >
+        <p class="container-bottom--quote">
+          "Letting your mind play is the best way to solve problems."
+        </p>
+        <cite class="container-bottom--author">by Bill Watterson</cite>
+      </blockquote>
+      <button class="container-bottom--toggle">todo</button>
+    </section>
   </body>
 </html>

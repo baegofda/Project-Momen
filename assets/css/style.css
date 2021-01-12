@@ -13,55 +13,145 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   color: var(--color-white);
+  font-family: "Roboto", sans-serif;
+  height: 100vh;
+  background: url("https://images.unsplash.com/photo-1587997573803-5df279e30716?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1463&q=80")
+    no-repeat center/cover;
+}
+
+button {
+  cursor: pointer;
 }
 
 #header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #369fff;
+  height: 80px;
+  padding: 1em;
+  background-color: transparent;
 }
 
-.header__container {
+.header__search {
   display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .header__toggle {
   color: var(--color-white);
   font-weight: 500;
+  margin-right: 0.5rem;
   background-color: transparent;
 }
 
+.header__form-container {
+  max-width: 0;
+  overflow: hidden;
+  transition: max-width 300ms ease-in-out;
+}
+
+.header__form-container.active {
+  max-width: 100%;
+  overflow: visible;
+}
+
 .header__form {
-  border-bottom: 2px solid black;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
 }
 
 .header__form--input {
+  color: var(--color-white);
+  font-size: 0.9rem;
   outline: none;
+  width: 100%;
+  padding: 0;
   border: 0;
   background-color: transparent;
 }
 
 .header__form--btn {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
+  margin-left: 0.5em;
   border: 0;
   background-color: transparent;
 }
 
 .header__form--btn::before {
   content: "";
-  display: block;
-  width: 16px;
-  height: 16px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin: 0 auto;
   background: url("../image/search.svg") no-repeat center/cover;
+}
+
+.header__form-container::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-white);
 }
 
 .header__weather--container {
   display: flex;
 }
 
-.header__weather--container::after {
+.header__weather--temperature {
+  font-size: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.header__weather--temperature::after {
   content: "°";
+}
+
+.container-top {
+  text-align: center;
+}
+
+.container-top--time {
+  font-size: 8rem;
+}
+
+.container-top__greeting--text {
+  font-size: 3rem;
+}
+
+.container-top__focus--text {
+  font-size: 2.5rem;
+}
+
+.container-top__focus--input {
+  width: 100%;
+}
+
+.container-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1em;
+}
+
+.container-bottom--text {
+  display: flex;
+}
+
+.container-bottom--author {
+  margin-left: 0.5em;
+}
+
+.container-bottom--toggle {
+  color: var(--color-white);
+  background-color: transparent;
 }
