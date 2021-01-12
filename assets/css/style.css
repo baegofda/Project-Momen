@@ -10,6 +10,10 @@
 :root {
   /* color */
   --color-white: #fff;
+
+  /* size */
+  --size-padding: 1em;
+  --size-margin-bottom: 3rem;
 }
 
 body {
@@ -27,12 +31,20 @@ button {
   cursor: pointer;
 }
 
+input {
+  color: var(--color-white);
+  outline: none;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
 #header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 80px;
-  padding: 1em;
+  padding: var(--size-padding);
   background-color: transparent;
 }
 
@@ -67,13 +79,8 @@ button {
 }
 
 .header__form--input {
-  color: var(--color-white);
   font-size: 0.9rem;
-  outline: none;
   width: 100%;
-  padding: 0;
-  border: 0;
-  background-color: transparent;
 }
 
 .header__form--btn {
@@ -116,15 +123,36 @@ button {
 }
 
 .container-top {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .container-top--time {
-  font-size: 8rem;
+  font-size: 9rem;
+  margin: 0 auto;
+}
+
+.container-top__greeting {
+  max-width: 40%;
+  margin-bottom: var(--size-margin-bottom);
 }
 
 .container-top__greeting--text {
   font-size: 3rem;
+}
+
+.container-top__greeting--input {
+  font-size: 2rem;
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid var(--color-white);
+}
+
+.container-top__focus {
+  max-width: 43%;
 }
 
 .container-top__focus--text {
@@ -132,7 +160,10 @@ button {
 }
 
 .container-top__focus--input {
+  font-size: 2rem;
   width: 100%;
+  height: 50px;
+  border-bottom: 2px solid var(--color-white);
 }
 
 .container-bottom {
@@ -140,17 +171,26 @@ button {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1em;
+  height: 60px;
+  padding: 0 var(--size-padding);
 }
 
+.container-bottom--loaction {
+  flex: 1;
+}
 .container-bottom--text {
   display: flex;
+  flex: 1;
 }
 
 .container-bottom--author {
   margin-left: 0.5em;
 }
 
+.container-bottom--container {
+  flex: 1;
+  text-align: right;
+}
 .container-bottom--toggle {
   color: var(--color-white);
   background-color: transparent;
