@@ -78,13 +78,18 @@ summary,
 time,
 mark,
 audio,
-video {
+video,
+button,
+li,
+ul,
+ol {
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -121,4 +126,9 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+button {
+  outline: none;
+  border: 0;
 }

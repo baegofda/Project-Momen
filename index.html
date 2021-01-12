@@ -3,9 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Momenton</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/reset.css" />
+    <link rel="stylesheet" href="/assets/css/weather-icons.min.css" />
   </head>
-  <body></body>
+  <body>
+    <header id="header">
+      <div class="header__container">
+        <button class="header__toggle" type="button">Search</button>
+        <form
+          class="header__form"
+          action="http://www.google.co.kr/search"
+          method="get"
+          target="_blank"
+        >
+          <input class="header__form--input" type="text" />
+          <button class="header__form--btn" type="submit"></button>
+        </form>
+      </div>
+      <div class="header__weather">
+        <div class="header__weather--container">
+          <img
+            class="header__weather--img"
+            src="assets/image/cloud.svg"
+            alt=""
+          />
+          <div class="header__weather--temperature">-1</div>
+        </div>
+        <div class="header__weather--location">Samjeon-dong</div>
+      </div>
+    </header>
+    <main id="main"></main>
+  </body>
 </html>
