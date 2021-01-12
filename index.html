@@ -15,6 +15,7 @@
   </head>
   <body>
     <header id="header">
+      <h1 class="sr-only">검색창과 날씨 정보</h1>
       <div class="header__search">
         <button class="header__toggle" type="button">Search</button>
         <div class="header__form-container">
@@ -43,20 +44,23 @@
     </header>
     <section class="container-top">
       <h1 class="container-top--time">18:45</h1>
-      <div class="container-top__greeting">
-        <h2 class="container-top__greeting--text">What's your name?</h2>
+      <form class="container-top__greeting" action="" method="get">
+        <h2 class="container-top__greeting--text">What is your name?</h2>
         <input class="container-top__greeting--input" type="text" />
-      </div>
-      <div class="container-top__focus">
+      </form>
+      <form class="container-top__focus" action="" method="get">
         <h2 class="container-top__focus--text">
           What is your main focus for today?
         </h2>
         <input class="container-top__focus--input" type="text" />
-      </div>
+      </form>
     </section>
     <section class="container-bottom">
-      <div class="container-bottom--loaction">
-        Lorem ipsum dolorddddddddddddddddddddddd.
+      <h1 class="sr-only">배경이미지 정보와 명언, 할일목록</h1>
+      <div class="container-bottom--description">
+        <a href="#n" class="container-bottom--location">
+          Lorem, ipsum dolor. by adasdas
+        </a>
       </div>
       <blockquote
         class="container-bottom--text"
@@ -68,7 +72,43 @@
         <cite class="container-bottom--author">by Bill Watterson</cite>
       </blockquote>
       <div class="container-bottom--container">
-        <button class="container-bottom--toggle">todo</button>
+        <button class="container-bottom--toggle">Todo</button>
+        <div class="container-bottom--container__position">
+          <div class="container-bottom--container__container">
+            <header class="container-bottom--container__container--header">
+              <h2 class="container-bottom--container__container--title">
+                ToDoList
+              </h2>
+            </header>
+            <ul class="container-bottom--container__container--list">
+              <li class="container-bottom--container__container--item">
+                <label for="item1">
+                  <input id="item1" type="checkbox" />
+                  <span>리스트1리스트1리스트1리스트1리스트1리스트1</span>
+                </label>
+                <div class="container-bottom--container__container--btns">
+                  <button
+                    class="container-bottom--container__container--edit"
+                  ></button>
+                  <button
+                    class="container-bottom--container__container--delete"
+                  ></button>
+                </div>
+              </li>
+            </ul>
+            <form
+              class="container-bottom--container__container--form"
+              action=""
+              method="get"
+            >
+              <input
+                class="container-bottom--container__container--input"
+                type="text"
+                placeholder="Write Your List"
+              />
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   </body>

@@ -6,31 +6,36 @@
   overflow: hidden;
   opacity: 0;
 }
-
 :root {
   /* color */
   --color-white: #fff;
+  --color-background: rgba(0, 0, 0, 0.7);
 
   /* size */
   --size-padding: 1em;
   --size-margin-bottom: 3rem;
-}
+  --size-todo: 0.5em;
 
+  /* duration */
+  --transition-duration: 300ms;
+}
+html,
+body {
+  height: 100%;
+}
 body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: var(--color-white);
   font-family: "Roboto", sans-serif;
-  height: 100vh;
+  overflow: hidden;
   background: url("https://images.unsplash.com/photo-1587997573803-5df279e30716?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1463&q=80")
     no-repeat center/cover;
 }
-
 button {
   cursor: pointer;
 }
-
 input {
   color: var(--color-white);
   outline: none;
@@ -39,6 +44,7 @@ input {
   background-color: transparent;
 }
 
+/* header */
 #header {
   display: flex;
   align-items: center;
@@ -47,42 +53,35 @@ input {
   padding: var(--size-padding);
   background-color: transparent;
 }
-
 .header__search {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
 }
-
 .header__toggle {
   color: var(--color-white);
   font-weight: 500;
   margin-right: 0.5rem;
   background-color: transparent;
 }
-
 .header__form-container {
   max-width: 0;
   overflow: hidden;
-  transition: max-width 300ms ease-in-out;
+  transition: max-width var(--transition-duration) ease-in-out;
 }
-
 .header__form-container.active {
   max-width: 100%;
   overflow: visible;
 }
-
 .header__form {
   display: flex;
   align-items: center;
   margin-bottom: 4px;
 }
-
 .header__form--input {
   font-size: 0.9rem;
   width: 100%;
 }
-
 .header__form--btn {
   width: 14px;
   height: 14px;
@@ -90,7 +89,6 @@ input {
   border: 0;
   background-color: transparent;
 }
-
 .header__form--btn::before {
   content: "";
   display: inline-block;
@@ -99,7 +97,6 @@ input {
   margin: 0 auto;
   background: url("../image/search.svg") no-repeat center/cover;
 }
-
 .header__form-container::after {
   content: "";
   display: block;
@@ -107,58 +104,53 @@ input {
   height: 2px;
   background-color: var(--color-white);
 }
-
 .header__weather--container {
   display: flex;
 }
-
 .header__weather--temperature {
   font-size: 2rem;
   text-align: center;
   width: 100%;
 }
-
 .header__weather--temperature::after {
   content: "°";
 }
 
+/* main container */
 .container-top {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  opacity: 1;
+  transition: opacity var(--transition-duration) ease-in-out;
 }
-
+.container-top.hide {
+  opacity: 0;
+}
 .container-top--time {
   font-size: 9rem;
   margin: 0 auto;
 }
-
 .container-top__greeting {
   max-width: 40%;
   margin-bottom: var(--size-margin-bottom);
 }
-
 .container-top__greeting--text {
   font-size: 3rem;
 }
-
 .container-top__greeting--input {
   font-size: 2rem;
   width: 100%;
   height: 50px;
   border-bottom: 2px solid var(--color-white);
 }
-
 .container-top__focus {
   max-width: 43%;
 }
-
 .container-top__focus--text {
   font-size: 2.5rem;
 }
-
 .container-top__focus--input {
   font-size: 2rem;
   width: 100%;
@@ -166,6 +158,7 @@ input {
   border-bottom: 2px solid var(--color-white);
 }
 
+/* bottom container */
 .container-bottom {
   display: flex;
   align-items: center;
@@ -174,24 +167,110 @@ input {
   height: 60px;
   padding: 0 var(--size-padding);
 }
-
-.container-bottom--loaction {
+.container-bottom--description {
   flex: 1;
+}
+.container-bottom--location {
+  color: var(--color-white);
+  text-decoration: none;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-bottom--location:hover {
+  color: #369fff;
 }
 .container-bottom--text {
   display: flex;
-  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex: 2;
 }
-
 .container-bottom--author {
   margin-left: 0.5em;
 }
-
 .container-bottom--container {
+  position: relative;
   flex: 1;
   text-align: right;
 }
 .container-bottom--toggle {
   color: var(--color-white);
   background-color: transparent;
+}
+
+/* todolist container */
+.container-bottom--container__position {
+  position: absolute;
+  right: 0;
+  bottom: 30px;
+  border-radius: 3px;
+  background-color: var(--color-background);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0);
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-bottom--container__position.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-3px);
+}
+.container-bottom--container__container {
+  position: relative;
+  width: 320px;
+}
+.container-bottom--container__container--header {
+  padding: calc(var(--size-todo) * 2) var(--size-todo);
+}
+.container-bottom--container__container--title {
+  font-size: 1.25rem;
+  text-align: left;
+}
+.container-bottom--container__container--item {
+  display: flex;
+  padding: 0 var(--size-todo) var(--size-todo);
+}
+.container-bottom--container__container--item label {
+  display: flex;
+}
+input[type="checkbox"] {
+  margin: 0;
+  margin-right: var(--size-todo);
+}
+.container-bottom--container__container--item label span {
+  margin-right: var(--size-todo);
+  text-align: left;
+}
+.container-bottom--container__container--btns {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: auto;
+}
+.container-bottom--container__container--edit {
+  background: url("../image/edit.svg") no-repeat center/cover;
+  width: 13px;
+  height: 13px;
+  margin-right: calc(var(--size-todo) / 2);
+}
+.container-bottom--container__container--delete {
+  background: url("../image/delete.svg") no-repeat center/cover;
+  width: 13px;
+  height: 13px;
+}
+.container-bottom--container__container--form {
+  width: 100%;
+}
+.container-bottom--container__container--input {
+  font-weight: 500;
+  width: 100%;
+  padding: var(--size-todo);
+  box-sizing: border-box;
+}
+.container-bottom--container__container::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  transform: rotate(180deg);
+  border: 7px solid transparent;
+  border-bottom: 7px solid var(--color-background);
 }
