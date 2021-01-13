@@ -10,11 +10,14 @@ const backgroundLoaction = document.querySelector(
   ".container-bottom--location"
 );
 const mainContainer = document.querySelector(".container-top");
+const header = document.querySelector("#header");
 backgroundLoaction.addEventListener("mouseenter", () => {
   mainContainer.classList.add("hide");
+  header.classList.add("hide");
 });
 backgroundLoaction.addEventListener("mouseleave", () => {
   mainContainer.classList.remove("hide");
+  header.classList.remove("hide");
 });
 
 //투두리스트 보이기
