@@ -29,9 +29,11 @@ body {
   justify-content: space-between;
   color: var(--color-white);
   font-family: "Roboto", sans-serif;
+  width: 100%;
   overflow: hidden;
-  background: url("https://images.unsplash.com/photo-1587997573803-5df279e30716?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1463&q=80")
-    no-repeat center/cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 button {
   cursor: pointer;
@@ -236,7 +238,7 @@ input[type="checkbox"] {
   margin: 0;
   margin-right: var(--size-todo);
 }
-.container-bottom--container__container--item label span {
+.container-bottom--container__container--item span {
   margin-right: var(--size-todo);
   text-align: left;
 }
