@@ -41,3 +41,11 @@ const todoContainer = document.querySelector(
 todoToggle.addEventListener("click", () => {
   todoContainer.classList.toggle("active");
 });
+
+// 초기 로딩화면
+const mask = document.querySelector(".loading");
+function maskHandle() {
+  mask.classList.add("none");
+}
+
+setTimeout(maskHandle, 1500);

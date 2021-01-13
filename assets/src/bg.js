@@ -28,7 +28,7 @@ function loadImages() {
   };
 
   fetch(
-    `https://api.unsplash.com/search/photos/?query=nature&orientation=landscape&client_id=${IMAGE_KEY}`,
+    `https://api.unsplash.com/search/photos/?query=nature&color=black&orientation=landscape&client_id=${IMAGE_KEY}`,
     requestOptions
   )
     .then((response) => response.json())

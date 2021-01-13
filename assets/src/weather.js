@@ -1,6 +1,7 @@
 const COORDS = "coords";
 const WEATHER_KEY = "656940ab113d2f9387d07fe60d1bd857";
 
+// 날씨 정보 표시하기
 function createWeather(weather) {
   const textTemp = document.querySelector(".header__weather--temperature");
   const textLoaction = document.querySelector(".header__weather--location");
