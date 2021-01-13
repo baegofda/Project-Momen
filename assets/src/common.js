@@ -48,4 +48,4 @@ function maskHandle() {
   mask.classList.add("none");
 }
 
-setTimeout(maskHandle, 1500);
+setTimeout(maskHandle, 2000);

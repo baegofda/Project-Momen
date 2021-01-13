@@ -55,7 +55,7 @@ input {
   top: 0;
   background-color: #181515;
   z-index: 999;
-  animation: mask 1.5s linear;
+  animation: mask 2s linear;
 }
 @keyframes mask {
   from {
@@ -97,11 +97,13 @@ input {
 .header__form-container {
   max-width: 0;
   opacity: 0;
+  visibility: hidden;
   transition: all var(--transition-duration) ease-in-out;
 }
 .header__form-container.active {
   max-width: 100%;
   opacity: 1;
+  visibility: visible;
 }
 .header__form {
   display: flex;
@@ -175,31 +177,84 @@ input {
 .container-top__greeting {
   max-width: 40%;
   margin-bottom: var(--size-margin-bottom);
+  animation: showGreeting var(--transition-duration) forwards;
 }
 .container-top__greeting--text {
   font-size: 3rem;
   text-align: center;
 }
+.container-top__greeting--name {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.2em;
+}
+.container-top__greeting--name-text {
+  display: inline-block;
+  min-width: 20px;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-top__greeting--name-text[contenteditable="true"] {
+  outline: none;
+  border-color: var(--color-white);
+}
+.container-top__greeting--btn {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 5px;
+  right: -20px;
+  background: url("../image/edit.svg") no-repeat center/cover;
+}
 .container-top__greeting--input {
   font-size: 2rem;
+  text-align: center;
   width: 100%;
   height: 50px;
   border-bottom: 2px solid var(--color-white);
+  visibility: visible;
+  transition: opacity var(--transition-duration) ease-in-out;
 }
 .container-top__focus {
   max-width: 43%;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--transition-duration) ease-in-out;
 }
+
 .container-top__focus--text {
   font-size: 2.5rem;
   text-align: center;
 }
 .container-top__focus--input {
   font-size: 2rem;
+  text-align: center;
   width: 100%;
   height: 50px;
   border-bottom: 2px solid var(--color-white);
 }
-
+.container-top__focus--today {
+  position: relative;
+  margin-left: 0.2em;
+}
+.container-top__greeting--name.hide,
+.container-top__focus--today.hide {
+  display: none;
+}
+.container-top__focus--btn {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 5px;
+  right: -20px;
+  background: url("../image/edit.svg") no-repeat center/cover;
+}
+.container-top__focus.hide,
+.container-top__greeting--input.hide {
+  opacity: 0;
+  visibility: hidden;
+  user-select: none;
+}
 /* bottom container */
 .container-bottom {
   display: flex;
@@ -279,6 +334,7 @@ input {
 .container-bottom--toggle {
   color: var(--color-white);
   background-color: transparent;
+  transition: color var(--transition-duration) ease-in-out;
 }
 
 /* todolist container */
@@ -360,11 +416,12 @@ input[type="checkbox"] {
 }
 
 /* event */
-.hide,
+.container-top.hide,
 #header.hide {
   opacity: 0;
 }
 .container-bottom--text:hover,
-.header__toggle:hover {
+.header__toggle:hover,
+.container-bottom--toggle:hover {
   color: #369fff;
 }
