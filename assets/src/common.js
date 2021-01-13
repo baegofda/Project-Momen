@@ -5,6 +5,18 @@ inputToggle.addEventListener("click", () => {
   inputFormContainer.classList.toggle("active");
 });
 
+const headerInput = document.querySelector(".header__form");
+const input = document.querySelector(".header__form--input");
+input.addEventListener("input", (e) => {
+  const value = e.target.value;
+  headerInput.addEventListener("submit", () => {
+    headerInput.setAttribute(
+      "action",
+      `https://www.google.com/search?q=${value}`
+    );
+  });
+});
+
 //배경주소 이벤트
 const backgroundLoaction = document.querySelector(
   ".container-bottom--location"

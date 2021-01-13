@@ -1,4 +1,4 @@
-const API_KEY = "HZ_VhCN89TVCLoQK0G7xCcHz33_Obskf4KB0vkklu_g";
+const IMAGE_KEY = "HZ_VhCN89TVCLoQK0G7xCcHz33_Obskf4KB0vkklu_g";
 
 // 배경 정보 불러오기
 function infoHandle(info) {
@@ -28,7 +28,7 @@ function loadImages() {
   };
 
   fetch(
-    `https://api.unsplash.com/search/photos/?query=nature&orientation=landscape&client_id=${API_KEY}`,
+    `https://api.unsplash.com/search/photos/?query=nature&orientation=landscape&client_id=${IMAGE_KEY}`,
     requestOptions
   )
     .then((response) => response.json())

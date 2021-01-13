@@ -111,14 +111,26 @@ input {
 }
 .header__weather--container {
   display: flex;
+  height: 36px;
+}
+.header__weather--ico::before {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  vertical-align: middle;
 }
 .header__weather--temperature {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  line-height: 1.5;
   text-align: center;
   width: 100%;
+  margin-left: 0.5em;
 }
 .header__weather--temperature::after {
   content: "°";
+}
+.header__weather--location {
+  text-align: center;
+  margin-top: 0.1em;
 }
 
 /* main container */
