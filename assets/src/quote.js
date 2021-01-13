@@ -14,7 +14,6 @@ function loadQuote() {
     method: "GET",
     redirect: "follow",
   };
-
   fetch("https://api.quotable.io/random?maxLength=60", requestOptions)
     .then((response) => response.json())
     .then((json) => createQuote(json))

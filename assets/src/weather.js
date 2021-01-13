@@ -17,10 +17,10 @@ function createWeather(weather) {
   const number = Number(substr);
   textTemp.innerText = temp;
   textLoaction.innerText = name;
-  if (!sunrise < number < sunset) {
-    weatherIcon.classList.add(`wi-owm-night-${status}`);
-  } else {
+  if (number >= sunrise && number < sunset) {
     weatherIcon.classList.add(`wi-owm-day-${status}`);
+  } else {
+    weatherIcon.classList.add(`wi-owm-night-${status}`);
   }
 }
 

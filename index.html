@@ -21,8 +21,6 @@
     <script src="assets/src/time.js" defer></script>
     <script src="assets/src/weather.js" defer></script>
     <script src="assets/src/quote.js" defer></script>
-    <script src="assets/src/greeting.js" defer></script>
-    <script src="assets/src/focus.js" defer></script>
   </head>
   <body>
     <div class="loading"></div>
@@ -52,25 +50,8 @@
     </header>
     <section class="container-top">
       <h1 class="container-top--time"></h1>
-      <form class="container-top__greeting" action="" method="get">
-        <h2 class="container-top__greeting--text">
-          What is your name?
-          <span class="container-top__greeting--name hide">
-            <span class="container-top__greeting--name-text"></span>
-            <button class="container-top__greeting--btn" type="button"></button>
-          </span>
-        </h2>
-        <input class="container-top__greeting--input" type="text" required />
-      </form>
-      <form class="container-top__focus hide" action="" method="get">
-        <h2 class="container-top__focus--text">
-          What is your main focus for today?
-        </h2>
-        <input class="container-top__focus--input" type="text" required />
-        <div class="container-top__focus--today hide">
-          <button class="container-top__focus--btn" type="button"></button>
-        </div>
-      </form>
+      <form class="container-top__greeting" action="" method="get"></form>
+      <form class="container-top__focus hide" action="" method="get"></form>
     </section>
     <section class="container-bottom">
       <h1 class="sr-only">배경이미지 정보와 명언, 할일목록</h1>
