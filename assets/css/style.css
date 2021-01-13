@@ -140,6 +140,7 @@ input {
 }
 .container-top__greeting--text {
   font-size: 3rem;
+  text-align: center;
 }
 .container-top__greeting--input {
   font-size: 2rem;
@@ -152,6 +153,7 @@ input {
 }
 .container-top__focus--text {
   font-size: 2.5rem;
+  text-align: center;
 }
 .container-top__focus--input {
   font-size: 2rem;
@@ -173,21 +175,66 @@ input {
   flex: 1;
 }
 .container-bottom--location {
+  position: relative;
+  display: inline-block;
   color: var(--color-white);
   text-decoration: none;
   transition: all var(--transition-duration) ease-in-out;
 }
-.container-bottom--location:hover {
+.container-bottom--location:hover,
+.container-bottom--text:hover {
   color: #369fff;
 }
+
+.bg-location {
+  position: relative;
+  display: inline-block;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-bottom--location:hover .bg-location {
+  transform: translateY(-12px);
+}
+
+.bg-user {
+  position: absolute;
+  width: 100%;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  left: 0;
+  opacity: 0;
+  transition: all var(--transition-duration) ease-in-out;
+}
+
+.container-bottom--location:hover .bg-user {
+  opacity: 1;
+  transform: translateY(12px);
+}
+
 .container-bottom--text {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 2;
 }
+.container-bottom--quote {
+  text-align: center;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-bottom--text:hover .container-bottom--quote {
+  transform: translateY(-12px);
+}
 .container-bottom--author {
+  position: absolute;
   margin-left: 0.5em;
+  opacity: 0;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-bottom--text:hover .container-bottom--author {
+  opacity: 1;
+  transform: translateY(12px);
 }
 .container-bottom--container {
   position: relative;
