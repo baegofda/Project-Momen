@@ -21,6 +21,7 @@
     <script src="assets/src/time.js" defer></script>
     <script src="assets/src/weather.js" defer></script>
     <script src="assets/src/quote.js" defer></script>
+    <script src="assets/src/todolist.js" defer></script>
   </head>
   <body>
     <div class="loading"></div>
@@ -31,9 +32,8 @@
         <div class="header__form-container">
           <form
             class="header__form"
-            action="http://www.google.co.kr/search"
-            method="get"
-            target="_blank"
+            action="https://www.google.com/search"
+            method="GET"
           >
             <input class="header__form--input" type="text" />
             <button class="header__form--btn" type="submit"></button>
@@ -79,16 +79,44 @@
             </header>
             <ul class="container-bottom--container__container--list">
               <li class="container-bottom--container__container--item">
-                <label for="item1">
-                  <input id="item1" type="checkbox" />
+                <input id="item1" type="checkbox" />
+                <label for="item1" data-id="1">
+                  <span> 리스트1리스트1리스트1리스트1리스트1리스트1 </span>
                 </label>
-                <span> 리스트1리스트1리스트1리스트1리스트1리스트1 </span>
-                <div class="container-bottom--container__container--btns">
+                <div
+                  class="container-bottom--container__container--btns"
+                  data-id="1"
+                >
                   <button
                     class="container-bottom--container__container--edit"
+                    data-type="edit"
+                    data-id="1"
                   ></button>
                   <button
                     class="container-bottom--container__container--delete"
+                    data-type="delete"
+                    data-id="1"
+                  ></button>
+                </div>
+              </li>
+              <li class="container-bottom--container__container--item">
+                <input id="item2" type="checkbox" />
+                <label for="item2" data-id="2">
+                  <span> 리스트2리스트2리스트2리스트2리스트2리스트2 </span>
+                </label>
+                <div
+                  class="container-bottom--container__container--btns"
+                  data-id="2"
+                >
+                  <button
+                    class="container-bottom--container__container--edit"
+                    data-type="edit"
+                    data-id="2"
+                  ></button>
+                  <button
+                    class="container-bottom--container__container--delete"
+                    data-type="delete"
+                    data-id="2"
                   ></button>
                 </div>
               </li>

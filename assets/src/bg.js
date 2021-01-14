@@ -22,24 +22,20 @@ function imageHandle(img) {
 
 //이미지 불러오기
 function loadImages() {
-  const requestOptions = {
-    method: "GET",
-    redirect: "follow",
-  };
-
-  fetch(
-    `https://api.unsplash.com/search/photos/?query=nature&color=black&orientation=landscape&client_id=${IMAGE_KEY}`,
-    requestOptions
-  )
-    .then((response) => response.json())
-    .then((json) => json.results)
-    .then((images) => {
+  const appUrl = `https://api.unsplash.com/search/photos/?query=nature&color=black&orientation=landscape&client_id=${IMAGE_KEY}`;
+  $.ajax({
+    type: "GET",
+    url: appUrl,
+    dataType: "json",
+    success: (res) => {
+      const images = res.results;
       const index = Math.floor(Math.random() * images.length);
       const img = images[index];
       imageHandle(img);
       infoHandle(img);
-    })
-    .catch((error) => console.log("error", error));
+    },
+    error: (err) => console.log(err),
+  });
 }
 
 function init() {

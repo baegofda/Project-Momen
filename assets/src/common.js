@@ -5,16 +5,14 @@ inputToggle.addEventListener("click", () => {
   inputFormContainer.classList.toggle("active");
 });
 
-const headerInput = document.querySelector(".header__form");
-const input = document.querySelector(".header__form--input");
-input.addEventListener("input", (e) => {
-  const value = e.target.value;
-  headerInput.addEventListener("submit", () => {
-    headerInput.setAttribute(
-      "action",
-      `https://www.google.com/search?q=${value}`
-    );
-  });
+//검색 보내기
+const headerForm = document.querySelector(".header__form");
+const headerInput = document.querySelector(".header__form--input");
+headerForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const value = headerInput.value;
+  window.open(`http://www.google.co.kr/search?q=${value}`);
+  headerInput.value = "";
 });
 
 //배경주소 이벤트
@@ -41,11 +39,3 @@ const todoContainer = document.querySelector(
 todoToggle.addEventListener("click", () => {
   todoContainer.classList.toggle("active");
 });
-
-// 초기 로딩화면
-const mask = document.querySelector(".loading");
-function maskHandle() {
-  mask.classList.add("none");
-}
-
-setTimeout(maskHandle, 1000);

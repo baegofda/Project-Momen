@@ -55,20 +55,16 @@ input {
   top: 0;
   background-color: #181515;
   z-index: 999;
-  animation: mask 1.1s linear;
+  pointer-events: none;
+  animation: loadingMask 1s forwards;
 }
-@keyframes mask {
+@keyframes loadingMask {
   from {
     opacity: 1;
   }
   to {
     opacity: 0;
   }
-}
-
-.loading.none {
-  visibility: hidden;
-  user-select: none;
 }
 
 /* header */
@@ -97,13 +93,11 @@ input {
 .header__form-container {
   max-width: 0;
   opacity: 0;
-  visibility: hidden;
   transition: all var(--transition-duration) ease-in-out;
 }
 .header__form-container.active {
   max-width: 100%;
   opacity: 1;
-  visibility: visible;
 }
 .header__form {
   display: flex;
@@ -151,13 +145,16 @@ input {
   text-align: center;
   width: 100%;
   margin-left: 0.5em;
+  cursor: default;
 }
 .header__weather--temperature::after {
   content: "°";
 }
 .header__weather--location {
+  font-size: 0.9rem;
   text-align: center;
   margin-top: 0.1em;
+  cursor: default;
 }
 
 /* main container */
@@ -225,8 +222,10 @@ input {
   flex: 2;
 }
 .container-bottom--quote {
+  position: relative;
   text-align: center;
   transition: all var(--transition-duration) ease-in-out;
+  cursor: default;
 }
 .container-bottom--text:hover .container-bottom--quote {
   transform: translateY(-12px);
@@ -236,6 +235,7 @@ input {
   margin-left: 0.5em;
   opacity: 0;
   transition: all var(--transition-duration) ease-in-out;
+  cursor: default;
 }
 .container-bottom--text:hover .container-bottom--author {
   opacity: 1;
@@ -260,13 +260,13 @@ input {
   border-radius: 3px;
   background-color: var(--color-background);
   opacity: 0;
-  visibility: hidden;
   transform: translateY(0);
   transition: all var(--transition-duration) ease-in-out;
+  pointer-events: none;
 }
 .container-bottom--container__position.active {
   opacity: 1;
-  visibility: visible;
+  pointer-events: visible;
   transform: translateY(-3px);
 }
 .container-bottom--container__container {
@@ -281,13 +281,14 @@ input {
   text-align: left;
 }
 .container-bottom--container__container--item {
+  position: relative;
   display: flex;
   padding: 0 var(--size-todo) var(--size-todo);
 }
 .container-bottom--container__container--item label {
   display: flex;
 }
-input[type="checkbox"] {
+.container-bottom--container__container--item input[type="checkbox"] {
   margin: 0;
   margin-right: var(--size-todo);
 }

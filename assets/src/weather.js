@@ -6,9 +6,13 @@ function createWeather(weather) {
   const textTemp = document.querySelector(".header__weather--temperature");
   const textLoaction = document.querySelector(".header__weather--location");
   const weatherIcon = document.querySelector(".header__weather--ico");
+  const weatherContainer = document.querySelector(
+    ".header__weather--container"
+  );
   const temp = weather.main.temp;
   const name = weather.name;
   const status = weather.weather[0].id;
+  const weatherTitle = weather.weather[0].description;
   const sunrise = weather.sys.sunrise;
   const sunset = weather.sys.sunset;
   const getTime = new Date().getTime();
@@ -17,11 +21,15 @@ function createWeather(weather) {
   const number = Number(substr);
   textTemp.innerText = temp;
   textLoaction.innerText = name;
+  textLoaction.setAttribute("title", `${name}`);
+  weatherIcon.setAttribute("title", `${weatherTitle}`);
+  weatherContainer.setAttribute("title", `${temp}`);
   if (number >= sunrise && number < sunset) {
     weatherIcon.classList.add(`wi-owm-day-${status}`);
   } else {
     weatherIcon.classList.add(`wi-owm-night-${status}`);
   }
+  console.log(weather);
 }
 
 // 날씨 정보가져오기
