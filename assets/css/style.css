@@ -279,9 +279,6 @@ input {
   font-size: 1.25rem;
   text-align: left;
 }
-.container-bottom--container__container--form {
-  box-sizing: border-box;
-}
 .container-bottom--container__container--list {
   overflow-y: scroll;
   max-height: calc(85vh - 135px);
@@ -314,7 +311,6 @@ input {
 .container-bottom--container__container--item span {
   position: relative;
   font-size: 0.9rem;
-  margin-right: var(--size-todo);
   text-align: left;
   transition: all var(--transition-duration) ease-in-out;
 }

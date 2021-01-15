@@ -7,20 +7,38 @@ const todosContainer = document.querySelector(
 const todoInput = document.querySelector(
   ".container-bottom--container__container--input"
 );
-const todoItem = document.querySelector(
-  ".container-bottom--container__container--item"
-);
 const TODOS = "todos";
 let todos = [];
-
-// 리스트 삭제하기
-function deleteList() {
-  console.log(e);
-}
+let i = 0;
 
 // 리스트 수정하기
-function editList(e) {
-  console.log(e);
+function editList(target) {
+  const btnContainer = target.parentNode;
+  const targetList = btnContainer.parentNode;
+  const content = targetList.querySelector(
+    " .container-bottom--container__container--content"
+  );
+  const selection = window.getSelection();
+  content.setAttribute("contenteditable", true);
+  selection.selectAllChildren(content);
+  selection.collapseToEnd();
+  content.focus();
+  content.addEventListener("blur", () => {
+    todos[targetList.dataset.id - 1].content = content.innerText.toString();
+    saveStorage();
+  });
+}
+
+// 리스트 삭제하기
+function deleteList(target) {
+  const btnContainer = target.parentNode;
+  const targetList = btnContainer.parentNode;
+  todosContainer.removeChild(targetList);
+  const deleteTodos = todos.filter((todo) => {
+    return todo.index !== parseInt(targetList.dataset.id);
+  });
+  todos = deleteTodos;
+  saveStorage();
 }
 
 // 배열에 추가하기
@@ -34,10 +52,11 @@ function saveList(content) {
   const label = document.createElement("label");
   label.setAttribute("for", `item${index}`);
   const span = document.createElement("span");
-  span.innerText = content;
+  span.setAttribute("class", "container-bottom--container__container--content");
+  span.innerHTML = content;
   const sronly = document.createElement("span");
   sronly.setAttribute("class", "sr-only");
-  sronly.innerText = content;
+  sronly.innerHTML = content;
   const div = document.createElement("div");
   div.setAttribute("class", "container-bottom--container__container--btns");
   const editBtn = document.createElement("button");
@@ -54,12 +73,12 @@ function saveList(content) {
   label.appendChild(sronly);
   div.appendChild(editBtn);
   div.appendChild(delBtn);
+  li.setAttribute("data-id", `${index}`);
   li.appendChild(inputCheck);
   li.appendChild(label);
   li.appendChild(span);
   li.appendChild(div);
   todosContainer.appendChild(li);
-
   const todo = {
     index,
     content,
@@ -78,6 +97,9 @@ function saveStorage() {
 function handleSubmit(e) {
   e.preventDefault();
   const content = todoInput.value;
+  if (content === " ") {
+    return;
+  }
   saveList(content);
   todoInput.value = "";
 }
@@ -95,10 +117,12 @@ function init() {
   loadToDos();
   // 서브밋하면 리스트 저장하기
   todoForm.addEventListener("submit", handleSubmit);
-  todoItem.addEventListener("click", (e) => {
+  todosContainer.addEventListener("click", (e) => {
     const target = e.target;
-    if (e.target.dataset.id === "edit") {
-      editList(e);
+    if (target.dataset.type === "edit") {
+      editList(target);
+    } else if (target.dataset.type === "delete") {
+      deleteList(target);
     }
   });
 }
