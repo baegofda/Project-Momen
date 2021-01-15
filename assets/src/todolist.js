@@ -11,6 +11,18 @@ const TODOS = "todos";
 let todos = [];
 let i = 0;
 
+function checkList(target) {
+  if (!target.classList.contains("checked")) {
+    target.classList.add("checked");
+    todos[target.dataset.id - 1].checked = 1;
+    saveStorage();
+  } else {
+    target.classList.remove("checked");
+    todos[target.dataset.id - 1].checked = 0;
+    saveStorage();
+  }
+}
+
 // 리스트 수정하기
 function editList(target) {
   const btnContainer = target.parentNode;
@@ -24,7 +36,7 @@ function editList(target) {
   selection.collapseToEnd();
   content.focus();
   content.addEventListener("blur", () => {
-    todos[targetList.dataset.id - 1].content = content.innerText.toString();
+    todos[targetList.dataset.id - 1].content = content.innerText;
     saveStorage();
   });
 }
@@ -42,7 +54,7 @@ function deleteList(target) {
 }
 
 // 배열에 추가하기
-function saveList(content) {
+function saveList(content, checked) {
   const li = document.createElement("li");
   li.setAttribute("class", "container-bottom--container__container--item");
   const index = todos.length + 1;
@@ -51,12 +63,14 @@ function saveList(content) {
   inputCheck.setAttribute("type", "checkbox");
   const label = document.createElement("label");
   label.setAttribute("for", `item${index}`);
+  label.setAttribute("data-type", "checkbox");
+  label.setAttribute("data-id", `${index}`);
   const span = document.createElement("span");
   span.setAttribute("class", "container-bottom--container__container--content");
   span.innerHTML = content;
   const sronly = document.createElement("span");
   sronly.setAttribute("class", "sr-only");
-  sronly.innerHTML = content;
+  sronly.innerText = content;
   const div = document.createElement("div");
   div.setAttribute("class", "container-bottom--container__container--btns");
   const editBtn = document.createElement("button");
@@ -81,10 +95,14 @@ function saveList(content) {
   todosContainer.appendChild(li);
   const todo = {
     index,
+    checked: checked >= 0 ? checked : 0,
     content,
   };
   todos.push(todo);
-  saveStorage();
+  if (checked === 1) {
+    inputCheck.setAttribute("checked", checked);
+    label.setAttribute("class", "checked");
+  }
 }
 
 // 리스트 저장
@@ -109,7 +127,9 @@ function loadToDos() {
   const loadedToDos = localStorage.getItem(TODOS);
   if (loadedToDos !== null) {
     const parsedTodos = JSON.parse(loadedToDos);
-    parsedTodos.forEach((todo) => saveList(todo.content));
+    parsedTodos.forEach((todo) => {
+      saveList(todo.content, todo.checked);
+    });
   }
 }
 
@@ -123,6 +143,8 @@ function init() {
       editList(target);
     } else if (target.dataset.type === "delete") {
       deleteList(target);
+    } else if (target.dataset.type === "checkbox") {
+      checkList(target);
     }
   });
 }

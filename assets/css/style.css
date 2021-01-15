@@ -285,7 +285,6 @@ input {
   transition: max-height var(--transition-duration) ease-in-out;
 }
 .container-bottom--container__container--item {
-  position: relative;
   display: flex;
   padding: calc(var(--size-todo) / 2) var(--size-todo);
 }
@@ -308,7 +307,7 @@ input {
   + label {
   background-color: #369fff;
 }
-.container-bottom--container__container--item span {
+.container-bottom--container__container--item > span {
   position: relative;
   font-size: 0.9rem;
   text-align: left;
