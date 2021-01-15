@@ -7,7 +7,10 @@ function infoHandle(info) {
   const userText = document.querySelector(".bg-user");
   const link = info.links.html;
   const name = info.user.name;
-  const location = info.user.location;
+  let location = info.user.location;
+  if (location === null) {
+    location = "Unsplash landscape";
+  }
   description.setAttribute("href", `${link}`);
   locationText.innerText = `${location}`;
   userText.innerText = `by ${name}`;

@@ -23,13 +23,12 @@ function createWeather(weather) {
   textLoaction.innerText = name;
   textLoaction.setAttribute("title", `${name}`);
   weatherIcon.setAttribute("title", `${weatherTitle}`);
-  weatherContainer.setAttribute("title", `${temp}`);
+  weatherContainer.setAttribute("title", `${temp}°`);
   if (number >= sunrise && number < sunset) {
     weatherIcon.classList.add(`wi-owm-day-${status}`);
   } else {
     weatherIcon.classList.add(`wi-owm-night-${status}`);
   }
-  console.log(weather);
 }
 
 // 날씨 정보가져오기

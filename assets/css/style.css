@@ -14,14 +14,14 @@
   /* size */
   --size-padding: 1em;
   --size-margin-bottom: 3rem;
-  --size-todo: 0.5em;
+  --size-todo: 1em;
 
   /* duration */
   --transition-duration: 300ms;
 }
 html,
 body {
-  height: 100%;
+  height: 100vh;
 }
 body {
   display: flex;
@@ -30,7 +30,6 @@ body {
   color: var(--color-white);
   font-family: "Roboto", sans-serif;
   width: 100%;
-  overflow: hidden;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -50,7 +49,7 @@ input {
 .loading {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   left: 0;
   top: 0;
   background-color: #181515;
@@ -271,30 +270,59 @@ input {
 }
 .container-bottom--container__container {
   position: relative;
-  width: 320px;
+  width: 300px;
 }
 .container-bottom--container__container--header {
-  padding: calc(var(--size-todo) * 2) var(--size-todo);
+  padding: var(--size-todo);
 }
 .container-bottom--container__container--title {
   font-size: 1.25rem;
   text-align: left;
 }
+.container-bottom--container__container--form {
+  box-sizing: border-box;
+}
+.container-bottom--container__container--list {
+  overflow-y: scroll;
+  max-height: calc(85vh - 135px);
+  transition: max-height var(--transition-duration) ease-in-out;
+}
 .container-bottom--container__container--item {
   position: relative;
   display: flex;
-  padding: 0 var(--size-todo) var(--size-todo);
-}
-.container-bottom--container__container--item label {
-  display: flex;
+  padding: calc(var(--size-todo) / 2) var(--size-todo);
 }
 .container-bottom--container__container--item input[type="checkbox"] {
-  margin: 0;
+  display: none;
+}
+.container-bottom--container__container--item label {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
   margin-right: var(--size-todo);
+  border-radius: 2px;
+  background: var(--color-white) url("../image/checkmark.svg") no-repeat
+    center/cover;
+  transition: background-color var(--transition-duration) ease-in-out;
+  cursor: pointer;
+}
+.container-bottom--container__container--item
+  input[type="checkbox"]:checked
+  + label {
+  background-color: #369fff;
 }
 .container-bottom--container__container--item span {
+  position: relative;
+  font-size: 0.9rem;
   margin-right: var(--size-todo);
   text-align: left;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-bottom--container__container--item
+  input[type="checkbox"]:checked
+  ~ span {
+  text-decoration: line-through;
+  color: #bcbcbc;
 }
 .container-bottom--container__container--btns {
   display: flex;
@@ -312,9 +340,6 @@ input {
   background: url("../image/delete.svg") no-repeat center/cover;
   width: 13px;
   height: 13px;
-}
-.container-bottom--container__container--form {
-  width: 100%;
 }
 .container-bottom--container__container--input {
   font-weight: 500;
