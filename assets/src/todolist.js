@@ -103,6 +103,7 @@ function saveList(content, checked) {
     inputCheck.setAttribute("checked", checked);
     label.setAttribute("class", "checked");
   }
+  saveStorage();
 }
 
 // 리스트 저장

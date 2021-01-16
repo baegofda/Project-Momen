@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 .sr-only {
   position: absolute;
   z-index: -100;
@@ -10,10 +12,12 @@
   /* color */
   --color-white: #fff;
   --color-background: rgba(0, 0, 0, 0.7);
+  --color-gray: #bcbcbc;
+  --color-lightblue: #369fff;
 
   /* size */
   --size-padding: 1em;
-  --size-margin-bottom: 3rem;
+  --size-margin-bottom: 2rem;
   --size-todo: 1em;
 
   /* duration */
@@ -34,9 +38,7 @@ body {
   background-position: center;
   background-size: cover;
 }
-button {
-  cursor: pointer;
-}
+
 input {
   color: var(--color-white);
   outline: none;
@@ -162,12 +164,55 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
   opacity: 1;
   transition: opacity var(--transition-duration) ease-in-out;
 }
 .container-top--time {
   font-size: 9rem;
-  margin: 0 auto;
+  margin: 0 auto var(--size-margin-bottom);
+}
+.container-top__greeting {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+.container-top__greeting--text {
+  font-size: 3rem;
+  margin-bottom: var(--size-margin-bottom);
+}
+.container-top__greeting--input {
+  font-size: 3rem;
+  text-align: center;
+  width: 100%;
+  border-bottom: 2px solid var(--color-white);
+  opacity: 1;
+  visibility: visible;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-top__greeting--input.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+.container-top__greeting--name {
+  font-size: 3rem;
+  margin-left: 5px;
+}
+.container-top__greeting--edit {
+  position: absolute;
+  right: -15px;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  background: url("../image/edit.svg") no-repeat center/cover;
+  opacity: 1;
+  visibility: visible;
+  transition: all var(--transition-duration) ease-in-out;
+}
+.container-top__greeting--edit.hide {
+  opacity: 0;
+  visibility: hidden;
 }
 /* bottom container */
 .container-bottom {
@@ -196,7 +241,7 @@ input {
   transition: all var(--transition-duration) ease-in-out;
 }
 .container-bottom--location:hover .bg-location {
-  color: #369fff;
+  color: var(--color-lightblue);
   transform: translateY(-12px);
 }
 .bg-user {
@@ -209,7 +254,7 @@ input {
   transition: all var(--transition-duration) ease-in-out;
 }
 .container-bottom--location:hover .bg-user {
-  color: #369fff;
+  color: var(--color-lightblue);
   opacity: 1;
   transform: translateY(12px);
 }
@@ -284,6 +329,17 @@ input {
   max-height: calc(85vh - 135px);
   transition: max-height var(--transition-duration) ease-in-out;
 }
+.container-bottom--container__container--list p {
+  display: block;
+  text-align: center;
+  padding: 2rem 0;
+  opacity: 1;
+  transition: opacity var(--transition-duration) ease-in-out;
+}
+.container-bottom--container__container--list p.hide {
+  opacity: 0;
+  display: none;
+}
 .container-bottom--container__container--item {
   display: flex;
   padding: calc(var(--size-todo) / 2) var(--size-todo);
@@ -292,8 +348,8 @@ input {
   display: none;
 }
 .container-bottom--container__container--item label {
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
   margin-right: var(--size-todo);
   border-radius: 2px;
@@ -302,10 +358,13 @@ input {
   transition: background-color var(--transition-duration) ease-in-out;
   cursor: pointer;
 }
+.container-bottom--container__container--item label:hover {
+  background-color: var(--color-lightblue);
+}
 .container-bottom--container__container--item
   input[type="checkbox"]:checked
   + label {
-  background-color: #369fff;
+  background-color: var(--color-lightblue);
 }
 .container-bottom--container__container--item > span {
   position: relative;
@@ -314,10 +373,15 @@ input {
   transition: all var(--transition-duration) ease-in-out;
 }
 .container-bottom--container__container--item
+  > span[contenteditable="true"]:focus {
+  outline: none;
+  color: var(--color-gray);
+}
+.container-bottom--container__container--item
   input[type="checkbox"]:checked
   ~ span {
   text-decoration: line-through;
-  color: #bcbcbc;
+  color: var(--color-gray);
 }
 .container-bottom--container__container--btns {
   display: flex;
@@ -329,7 +393,7 @@ input {
   background: url("../image/edit.svg") no-repeat center/cover;
   width: 13px;
   height: 13px;
-  margin-right: calc(var(--size-todo) / 2);
+  margin: 0 calc(var(--size-todo) / 2);
 }
 .container-bottom--container__container--delete {
   background: url("../image/delete.svg") no-repeat center/cover;
@@ -359,5 +423,5 @@ input {
 .container-bottom--text:hover,
 .header__toggle:hover,
 .container-bottom--toggle:hover {
-  color: #369fff;
+  color: var(--color-lightblue);
 }

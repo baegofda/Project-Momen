@@ -22,6 +22,7 @@
     <script src="assets/src/weather.js" defer></script>
     <script src="assets/src/quote.js" defer></script>
     <script src="assets/src/todolist.js" defer></script>
+    <script src="assets/src/text.js" defer></script>
   </head>
   <body>
     <div class="loading"></div>
@@ -50,8 +51,28 @@
     </header>
     <section class="container-top">
       <h1 class="container-top--time"></h1>
-      <form class="container-top__greeting" action="" method="get"></form>
-      <form class="container-top__focus hide" action="" method="get"></form>
+      <form
+        class="container-top__greeting"
+        action=""
+        method="get"
+        name="greeting"
+      >
+        <h2 class="container-top__greeting--text">
+          Thank you visiting our website !
+        </h2>
+        <input
+          class="container-top__greeting--input"
+          type="text"
+          placeholder="What's Your Name ?"
+          name="name"
+          autocomplete="off"
+        />
+        <button
+          class="container-top__greeting--edit hide"
+          type="button"
+          data-type="edit"
+        ></button>
+      </form>
     </section>
     <section class="container-bottom">
       <h1 class="sr-only">배경이미지 정보와 명언, 할일목록</h1>
@@ -82,7 +103,9 @@
               action=""
               method="get"
             >
-              <ul class="container-bottom--container__container--list"></ul>
+              <ul class="container-bottom--container__container--list">
+                <!-- <p class="hide">Make Your List 👇</p> -->
+              </ul>
               <input
                 class="container-bottom--container__container--input"
                 type="text"
