@@ -11,7 +11,7 @@
 :root {
   /* color */
   --color-white: #fff;
-  --color-background: rgba(0, 0, 0, 0.7);
+  --color-background: rgba(0, 0, 0, 0.5);
   --color-gray: #bcbcbc;
   --color-lightblue: #369fff;
 
@@ -314,8 +314,11 @@ input {
   position: absolute;
   right: 0;
   bottom: 30px;
-  border-radius: 3px;
   background-color: var(--color-background);
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
   opacity: 0;
   transform: translateY(0);
   transition: all var(--transition-duration) ease-in-out;
