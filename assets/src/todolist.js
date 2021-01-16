@@ -11,6 +11,7 @@ const TODOS = "todos";
 let todos = [];
 let i = 0;
 
+// 리스트가 체크될때
 function checkList(target) {
   if (!target.classList.contains("checked")) {
     target.classList.add("checked");
@@ -35,7 +36,23 @@ function editList(target) {
   selection.selectAllChildren(content);
   selection.collapseToEnd();
   content.focus();
+  content.addEventListener("keypress", (e) => {
+    if (e.keyCode === 13) {
+      if (content.innerText == "" || content.innerText.trim("") == "") {
+        content.innerText = todos[targetList.dataset.id - 1].content;
+        return;
+      }
+      content.setAttribute("contenteditable", false);
+      todos[targetList.dataset.id - 1].content = content.innerText;
+      saveStorage();
+    }
+  });
   content.addEventListener("blur", () => {
+    if (content.innerText == "" || content.innerText.trim("") == "") {
+      content.innerText = todos[targetList.dataset.id - 1].content;
+      return;
+    }
+    content.setAttribute("contenteditable", false);
     todos[targetList.dataset.id - 1].content = content.innerText;
     saveStorage();
   });

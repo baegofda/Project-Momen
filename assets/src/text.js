@@ -3,19 +3,40 @@ const greeting = document.querySelector("form[name='greeting']");
 const greetText = document.querySelector(".container-top__greeting--text");
 const greetInput = document.querySelector(".container-top__greeting--input");
 const greetBtn = document.querySelector(".container-top__greeting--edit");
-const NAME = "name";
+const NAME = "greeting";
 
 function editItem(target) {
   const formContainer = target.parentNode;
-  console.log(formContainer);
+  const formName = formContainer.getAttribute("name");
+  const formText = document.querySelector(`.container-top__${formName}--name`);
+  const selection = window.getSelection();
+  formText.setAttribute("contenteditable", true);
+  selection.selectAllChildren(formText);
+  selection.collapseToEnd();
+  formText.focus();
+  formText.addEventListener("keypress", (e) => {
+    if (e.keyCode === 13) {
+      if (formText.innerText == "" || formText.innerText.trim("") == "") {
+        loadText();
+        return;
+      }
+      formText.setAttribute("contenteditable", false);
+      saveItem(formText.innerText, formName);
+    }
+  });
+  formText.addEventListener("blur", () => {
+    if (formText.innerText == "" || formText.innerText.trim("") == "") {
+      loadText();
+      return;
+    }
+    formText.setAttribute("contenteditable", false);
+    saveItem(formText.innerText, formName);
+  });
 }
 
 function saveItem(text, target) {
-  if (target === greeting) {
+  if (target === greeting || target === "greeting") {
     localStorage.setItem(NAME, text);
-  }
-  if (target === focus) {
-    localStorage.setItem(FOCUS, text);
   }
 }
 
@@ -34,15 +55,22 @@ function createItem(inputValue, target) {
 function handleSubmit(target) {
   const input = target.querySelector("input[type=text]");
   const inputValue = input.value;
+  if (inputValue === " ") {
+    return;
+  }
   saveItem(inputValue, target);
   createItem(inputValue, target);
-  input.value = "";
+}
+function initName() {
+  greetInput.classList.remove("hide");
+  greetBtn.classList.add("hide");
 }
 // 아이템 불러오기
 function loadText() {
   const loadedName = localStorage.getItem(NAME);
   if (loadedName === null) {
-    // initName();
+    initName();
+    return;
   } else {
     createItem(loadedName, "greeting");
   }

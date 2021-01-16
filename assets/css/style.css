@@ -164,7 +164,7 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 600px;
+  width: 600px;
   margin: 0 auto;
   opacity: 1;
   transition: opacity var(--transition-duration) ease-in-out;
@@ -174,8 +174,8 @@ input {
   margin: 0 auto var(--size-margin-bottom);
 }
 .container-top__greeting {
-  position: relative;
   width: 100%;
+  position: relative;
   text-align: center;
 }
 .container-top__greeting--text {
@@ -185,19 +185,29 @@ input {
 .container-top__greeting--input {
   font-size: 3rem;
   text-align: center;
-  width: 100%;
   border-bottom: 2px solid var(--color-white);
   opacity: 1;
   visibility: visible;
   transition: all var(--transition-duration) ease-in-out;
+  cursor: text;
 }
 .container-top__greeting--input.hide {
   opacity: 0;
   visibility: hidden;
 }
 .container-top__greeting--name {
+  width: 100%;
   font-size: 3rem;
-  margin-left: 5px;
+  margin-top: 20px;
+  outline: none;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color var(--transition-duration) ease-in-out;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.container-top__greeting--name[contenteditable="true"]:focus {
+  border-bottom-color: var(--color-white);
 }
 .container-top__greeting--edit {
   position: absolute;
@@ -209,6 +219,7 @@ input {
   opacity: 1;
   visibility: visible;
   transition: all var(--transition-duration) ease-in-out;
+  overflow: hidden;
 }
 .container-top__greeting--edit.hide {
   opacity: 0;
@@ -343,6 +354,16 @@ input {
 .container-bottom--container__container--item {
   display: flex;
   padding: calc(var(--size-todo) / 2) var(--size-todo);
+  opacity: 1;
+  animation: listOpacity var(--transition-duration) forwards;
+}
+@keyframes listOpacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .container-bottom--container__container--item input[type="checkbox"] {
   display: none;
@@ -351,7 +372,7 @@ input {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  margin-right: var(--size-todo);
+  margin-right: calc(var(--size-todo) / 2);
   border-radius: 2px;
   background: var(--color-white) url("../image/checkmark.svg") no-repeat
     center/cover;
