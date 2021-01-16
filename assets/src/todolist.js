@@ -7,6 +7,7 @@ const todosContainer = document.querySelector(
 const todoInput = document.querySelector(
   ".container-bottom--container__container--input"
 );
+const noList = document.querySelector(".no-list");
 const TODOS = "todos";
 let todos = [];
 let i = 0;
@@ -67,6 +68,9 @@ function deleteList(target) {
     return todo.index !== parseInt(targetList.dataset.id);
   });
   todos = deleteTodos;
+  if (todos.length <= 0) {
+    noList.classList.remove("hide");
+  }
   saveStorage();
 }
 
@@ -120,6 +124,7 @@ function saveList(content, checked) {
     inputCheck.setAttribute("checked", checked);
     label.setAttribute("class", "checked");
   }
+
   saveStorage();
 }
 
@@ -128,10 +133,10 @@ function saveStorage() {
   const todosString = JSON.stringify(todos);
   localStorage.setItem(TODOS, todosString);
 }
-
 //서브밋 이벤트 관리
 function handleSubmit(e) {
   e.preventDefault();
+  noList.classList.add("hide");
   const content = todoInput.value;
   if (content === " ") {
     return;
@@ -139,11 +144,13 @@ function handleSubmit(e) {
   saveList(content);
   todoInput.value = "";
 }
-
 //리스트불러오기
 function loadToDos() {
   const loadedToDos = localStorage.getItem(TODOS);
-  if (loadedToDos !== null) {
+  if (loadedToDos === null || loadedToDos.length <= 2) {
+    noList.classList.remove("hide");
+  } else {
+    noList.classList.add("hide");
     const parsedTodos = JSON.parse(loadedToDos);
     parsedTodos.forEach((todo) => {
       saveList(todo.content, todo.checked);

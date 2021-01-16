@@ -340,14 +340,14 @@ input {
   max-height: calc(85vh - 135px);
   transition: max-height var(--transition-duration) ease-in-out;
 }
-.container-bottom--container__container--list p {
+.container-bottom--container__container--list .no-list {
   display: block;
   text-align: center;
   padding: 2rem 0;
   opacity: 1;
-  transition: opacity var(--transition-duration) ease-in-out;
+  transition: all var(--transition-duration) ease-in-out;
 }
-.container-bottom--container__container--list p.hide {
+.container-bottom--container__container--list .no-list.hide {
   opacity: 0;
   display: none;
 }
