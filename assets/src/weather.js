@@ -35,18 +35,18 @@ function createWeather(weather) {
 function getWeather(coords) {
   const lat = coords.latitude;
   const lon = coords.longitude;
-  let appUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${WEATHER_KEY}`;
-  $.ajax({
-    type: "GET",
-    url: appUrl,
-    dataType: "json",
-    success: (res) => {
-      createWeather(res);
-    },
-    error: (err) => {
-      console.log(err);
-    },
-  });
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${WEATHER_KEY}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((json) => createWeather(json))
+    .catch((error) => console.log("error", error));
 }
 
 // 위치정보 저장하기
