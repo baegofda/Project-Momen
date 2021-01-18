@@ -10,10 +10,10 @@ function timeHandler() {
   }`;
 }
 
-// 1초마다 업데이트
+// 1분마다 업데이트
 function init() {
   timeHandler();
-  setInterval(timeHandler, 1000);
+  setInterval(timeHandler, 60000);
 }
 
 init();
