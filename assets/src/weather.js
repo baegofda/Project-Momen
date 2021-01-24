@@ -1,7 +1,6 @@
 const COORDS = "coords";
 const WEATHER_KEY = "656940ab113d2f9387d07fe60d1bd857";
 
-// 날씨 정보 표시하기
 function createWeather(weather) {
   const textTemp = document.querySelector(".header__weather--temperature");
   const textLoaction = document.querySelector(".header__weather--location");
@@ -31,7 +30,6 @@ function createWeather(weather) {
   }
 }
 
-// 날씨 정보가져오기
 function getWeather(coords) {
   const lat = coords.latitude;
   const lon = coords.longitude;
@@ -49,12 +47,10 @@ function getWeather(coords) {
     .catch((error) => console.log("error", error));
 }
 
-// 위치정보 저장하기
 function saveCoords(coordsObj) {
   localStorage.setItem(COORDS, JSON.stringify(coordsObj));
 }
 
-// 위치정보 동의시
 function succCoordsHandle(position) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
@@ -66,19 +62,16 @@ function succCoordsHandle(position) {
   saveCoords(coordsObj);
 }
 
-// 위치정보 거부시
 function errLoacitonHandle() {
   console.log("cant access geo location");
 }
 
-//위치정보 묻기
 function loadCoords() {
   navigator.geolocation.getCurrentPosition(succCoordsHandle, errLoacitonHandle);
 }
 
 function init() {
   const coords = localStorage.getItem(COORDS);
-
   if (coords === null) {
     loadCoords();
   } else {

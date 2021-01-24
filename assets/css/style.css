@@ -185,14 +185,11 @@ input {
   font-size: 3rem;
   text-align: center;
   border-bottom: 2px solid var(--color-white);
-  opacity: 1;
-  visibility: visible;
-  transition: all var(--transition-duration) ease-in-out;
+  display: inline-block;
   cursor: text;
 }
 .container-top__greeting--input.hide {
-  opacity: 0;
-  visibility: hidden;
+  display: none;
 }
 .container-top__greeting--name {
   width: 100%;
@@ -215,14 +212,10 @@ input {
   width: 13px;
   height: 13px;
   background: url("../image/edit.svg") no-repeat center/cover;
-  opacity: 1;
-  visibility: visible;
-  transition: all var(--transition-duration) ease-in-out;
-  overflow: hidden;
+  display: block;
 }
 .container-top__greeting--edit.hide {
-  opacity: 0;
-  visibility: hidden;
+  display: none;
 }
 /* bottom container */
 .container-bottom {
