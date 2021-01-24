@@ -19,7 +19,7 @@ function createWeather(weather) {
   const str = getTime.toString();
   const substr = str.substring(0, 10);
   const number = Number(substr);
-  textTemp.innerText = temp;
+  textTemp.innerText = `${temp}°`;
   textLoaction.innerText = name;
   textLoaction.setAttribute("title", `${name}`);
   weatherIcon.setAttribute("title", `${weatherTitle}`);
@@ -62,12 +62,13 @@ function succCoordsHandle(position) {
     latitude,
     longitude,
   };
+  getWeather(coordsObj);
   saveCoords(coordsObj);
 }
 
 // 위치정보 거부시
-function errLoacitonHandle(err) {
-  console.log(err);
+function errLoacitonHandle() {
+  console.log("cant access geo location");
 }
 
 //위치정보 묻기
@@ -77,6 +78,7 @@ function loadCoords() {
 
 function init() {
   const coords = localStorage.getItem(COORDS);
+
   if (coords === null) {
     loadCoords();
   } else {

@@ -150,9 +150,6 @@ input {
   margin-left: 0.5em;
   cursor: default;
 }
-.header__weather--temperature::after {
-  content: "°";
-}
 .header__weather--location {
   font-size: 0.9rem;
   text-align: center;
