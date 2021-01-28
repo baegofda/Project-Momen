@@ -7,7 +7,7 @@
 ## **✨ 목표**
 
 - API를 활용한 정보제공
-- Local Storage를 이용한 데이터 저장
+- Local Storage를 이용한 데이터 저장 (페이지 새로고침시 데이터 불러옴)
 - 데이터 저장 여부에 따른 상태변화
 <p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FTqrnS%2FbtqUGS7pyTS%2FrJ6DYvBp4kOREH1JdJb16K%2Fimg.png"/></p>
 
@@ -389,7 +389,7 @@ function createItem(inputValue, target) {
 
 ---
 
-### ** 4. 실시간 시간정보 제공**
+### **4. 실시간 시간정보 제공**
 
 <p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcJnIKt%2FbtqUseruFy8%2F9BUBjsZBbHezOdQ3xyuYRk%2Fimg.jpg"/></p>
 
@@ -417,14 +417,52 @@ function createItem(inputValue, target) {
 
 ### **6. 페이지 방문시 하단중앙의 명언 변경**
 
-<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbiL2Za%2FbtqUzu7okLs%2FvtkKsBjweLbbwyLKxkOxe0%2Fimg.jpg"/></p>
-
-<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlsqBF%2FbtqUuNGFit4%2FIuXKdrAz8KRfYFR7JjCDq0%2Fimg.jpg"/></p>
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FKMvff%2FbtqU53t6TPZ%2FJ7bL3jfOSkhvKNtISpBC61%2Fimg.gif"/></p>
 
 ### **💻 코드살펴보기**
 
-```js
+> 명언은 Quotable API에서 받아오고 있습니다.  
+> loadQuote()가 실행되면 데이터를 createQuote()로 전달을 해줍니다.
 
+```js
+function createQuote(data) {
+  const textQuote = document.querySelector(".container-bottom--quote");
+  const testAuthor = document.querySelector(".container-bottom--author");
+  const quote = data.content;
+  const author = data.author;
+  textQuote.innerText = `"${quote}"`;
+  testAuthor.innerText = `- ${author}`;
+}
+
+function loadQuote() {
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+  fetch("https://api.quotable.io/random?maxLength=60", requestOptions)
+    .then((response) => response.json())
+    .then((json) => createQuote(json))
+    .catch((error) => console.log("error", error));
+}
+
+function init() {
+  loadQuote();
+}
+
+init();
+```
+
+> 전달받은 매개변수 data에 있는 content, author 데이터를 이용하여 명언 글귀와 인물정보를 제공합니다.
+
+```js
+function createQuote(data) {
+  const textQuote = document.querySelector(".container-bottom--quote");
+  const testAuthor = document.querySelector(".container-bottom--author");
+  const quote = data.content;
+  const author = data.author;
+  textQuote.innerText = `"${quote}"`;
+  testAuthor.innerText = `- ${author}`;
+}
 ```
 
 ---
