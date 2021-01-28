@@ -34,6 +34,7 @@
 5. 페이지 방문시 배경 & 배경 정보 변경
 6. 페이지 방문시 하단 중앙의 명언 변경
 7. ToDoList 기능
+8. 구글 검색창
 ```
 
 ### **1. 최초 페이지 방문시 사용자의 위치정보제공 동의여부와 시계아래에 이름 입력창 표출**
@@ -164,6 +165,35 @@ const greetText = document.querySelector(".container-top__greeting--text");
 const greetInput = document.querySelector(".container-top__greeting--input");
 const greetBtn = document.querySelector(".container-top__greeting--edit");
 const NAME = "greeting";
+
+function editItem(target) {
+  const formContainer = target.parentNode;
+  const formName = formContainer.getAttribute("name");
+  const formText = document.querySelector(`.container-top__${formName}--name`);
+  const selection = window.getSelection();
+  formText.setAttribute("contenteditable", true);
+  selection.selectAllChildren(formText);
+  selection.collapseToEnd();
+  formText.focus();
+  formText.addEventListener("keypress", (e) => {
+    if (e.keyCode === 13) {
+      if (formText.innerText == "" || formText.innerText.trim("") == "") {
+        loadText();
+        return;
+      }
+      formText.setAttribute("contenteditable", false);
+      saveItem(formText.innerText, formName);
+    }
+  });
+  formText.addEventListener("blur", () => {
+    if (formText.innerText == "" || formText.innerText.trim("") == "") {
+      loadText();
+      return;
+    }
+    formText.setAttribute("contenteditable", false);
+    saveItem(formText.innerText, formName);
+  });
+}
 
 function saveItem(text, target) {
   if (target === greeting || target === "greeting") {
@@ -341,8 +371,7 @@ function createItem(inputValue, target) {
 
 ### **💻 코드살펴보기**
 
-```
-
+```js
 
 ```
 
@@ -350,11 +379,25 @@ function createItem(inputValue, target) {
 
 ### **3. 아이디 입력시 입력창 숨김 저장된 이름 표출과 수정기능 제공**
 
-## <p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcw3ckm%2FbtqUtp7ke4y%2FbkdQAB86Sb4Wsu47KjWTF1%2Fimg.jpg"/></p>
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcw3ckm%2FbtqUtp7ke4y%2FbkdQAB86Sb4Wsu47KjWTF1%2Fimg.jpg"/></p>
+
+### **💻 코드살펴보기**
+
+```js
+
+```
+
+---
 
 ### ** 4. 실시간 시간정보 제공**
 
 <p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcJnIKt%2FbtqUseruFy8%2F9BUBjsZBbHezOdQ3xyuYRk%2Fimg.jpg"/></p>
+
+### **💻 코드살펴보기**
+
+```js
+
+```
 
 ---
 
@@ -364,6 +407,12 @@ function createItem(inputValue, target) {
 
 <p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdddiDw%2FbtqUtqLYf0B%2FK2NlaZO0YDoDH8BjFwQXwK%2Fimg.jpg"/></p>
 
+### **💻 코드살펴보기**
+
+```js
+
+```
+
 ---
 
 ### **6. 페이지 방문시 하단중앙의 명언 변경**
@@ -372,17 +421,54 @@ function createItem(inputValue, target) {
 
 <p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlsqBF%2FbtqUuNGFit4%2FIuXKdrAz8KRfYFR7JjCDq0%2Fimg.jpg"/></p>
 
+### **💻 코드살펴보기**
+
+```js
+
+```
+
 ---
 
 ### **7. ToDoList 기능**
 
 <p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FblyYiP%2FbtqUuNUhScd%2FLMoVxJcyzXQvxQOjhhkb31%2Fimg.jpg"/></p>
 
+### **💻 코드살펴보기**
+
+```js
+
+```
+
 ---
 
 ### **8. 좌측상단에 구글 검색 기능**
 
-<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGEsjK%2FbtqUBw4XRE6%2FyBJdwDq2Fp8A5UwpH30T40%2Fimg.jpg"/></p>
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbwvXrY%2FbtqU4A0gnXc%2Fdeih5xg52j9l53kKtHK6v0%2Fimg.gif"/></p>
+
+### **💻 코드살펴보기**
+
+> Search에 click 이벤트 발생시 검색창에 active class를 추가하는 toggle을 사용하였습니다.
+
+```js
+const inputToggle = document.querySelector(".header__toggle");
+const inputFormContainer = document.querySelector(".header__form-container");
+inputToggle.addEventListener("click", () => {
+  inputFormContainer.classList.toggle("active");
+});
+```
+
+> 검색창에 submit 이벤트 발생시 input의 value를 받아 window.open을 통한페이지 창을 열도록 하였습니다.
+
+```js
+const headerForm = document.querySelector(".header__form");
+const headerInput = document.querySelector(".header__form--input");
+headerForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const value = headerInput.value;
+  window.open(`http://www.google.co.kr/search?q=${value}`);
+  headerInput.value = "";
+});
+```
 
 ---
 
