@@ -660,12 +660,228 @@ function createQuote(data) {
 
 ### **7. ToDoList 기능**
 
-<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FblyYiP%2FbtqUuNUhScd%2FLMoVxJcyzXQvxQOjhhkb31%2Fimg.jpg"/></p>
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FovQdG%2FbtqVK9twHyM%2F8gkI9FbElhMsP7C5xRxIeK%2Fimg.gif"/></p>
 
 ### **💻 코드살펴보기**
 
-```js
+> ToDoList 기능 또한 제공하고 있으며 저장된 리스트가 없으면 안내 텍스트가 보여집니다.  
+> "Make Your List 👇"라는 텍스트를 보여주기 위하여 데이터가 없을경우 class에 hide를 제거합니다.
+> input에 submit이벤트가 발생할 경우 hanldeSubmit()를 실행합니다.
 
+```js
+const todoForm = document.querySelector(
+  ".container-bottom--container__container--form"
+);
+const todosContainer = document.querySelector(
+  ".container-bottom--container__container--list"
+);
+const noList = document.querySelector(".no-list");
+
+function loadToDos() {
+  const loadedToDos = localStorage.getItem(TODOS);
+  if (loadedToDos === null || loadedToDos.length <= 2) {
+    noList.classList.remove("hide");
+  } else {
+    noList.classList.add("hide");
+    const parsedTodos = JSON.parse(loadedToDos);
+    parsedTodos.forEach((todo) => {
+      saveList(todo.content, todo.checked);
+    });
+  }
+}
+
+function init() {
+  loadToDos();
+  todoForm.addEventListener("submit", handleSubmit);
+  todosContainer.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.dataset.type === "edit") {
+      editList(target);
+    } else if (target.dataset.type === "delete") {
+      deleteList(target);
+    } else if (target.dataset.type === "checkbox") {
+      checkList(target);
+    }
+  });
+}
+
+init();
+```
+
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FDqP0W%2FbtqVIJ9Vmgh%2Fuwm4K5LS329JEDtnoBRnP1%2Fimg.gif"/></p>
+
+> handleSubmit()이 실행될경우 "Make Your List 👇" 텍스트를 지우기위해 hide class를 추가하고  
+> input의 value를 saveList()에 인자로 전달하며 value를 초기화합니다.
+> 이때 value가 공백일 경우 리턴을 합니다.
+
+```js
+const todoInput = document.querySelector(
+  ".container-bottom--container__container--input"
+);
+
+function handleSubmit(e) {
+  e.preventDefault();
+  noList.classList.add("hide");
+  const content = todoInput.value;
+  if (content === " ") {
+    return;
+  }
+  saveList(content);
+  todoInput.value = "";
+}
+```
+
+> saveList()는 매개변수를 사용하여 빈 배열인 todos에 리스트 데이터를 push합니다.  
+> 이때 체크 여부또한 배열에 push합니다.  
+> 이후 saveStorage()를 실행합니다.
+
+```js
+let todos = [];
+
+function saveList(content, checked) {
+  const li = document.createElement("li");
+  li.setAttribute("class", "container-bottom--container__container--item");
+  const index = todos.length + 1;
+  const inputCheck = document.createElement("input");
+  inputCheck.setAttribute("id", `item${index}`);
+  inputCheck.setAttribute("type", "checkbox");
+  const label = document.createElement("label");
+  label.setAttribute("for", `item${index}`);
+  label.setAttribute("data-type", "checkbox");
+  label.setAttribute("data-id", `${index}`);
+  const span = document.createElement("span");
+  span.setAttribute("class", "container-bottom--container__container--content");
+  span.innerHTML = content;
+  const sronly = document.createElement("span");
+  sronly.setAttribute("class", "sr-only");
+  sronly.innerText = content;
+  const div = document.createElement("div");
+  div.setAttribute("class", "container-bottom--container__container--btns");
+  const editBtn = document.createElement("button");
+  editBtn.setAttribute("class", "container-bottom--container__container--edit");
+  editBtn.setAttribute("type", "button");
+  editBtn.setAttribute("data-type", "edit");
+  const delBtn = document.createElement("button");
+  delBtn.setAttribute(
+    "class",
+    "container-bottom--container__container--delete"
+  );
+  delBtn.setAttribute("type", "button");
+  delBtn.setAttribute("data-type", "delete");
+  label.appendChild(sronly);
+  div.appendChild(editBtn);
+  div.appendChild(delBtn);
+  li.setAttribute("data-id", `${index}`);
+  li.appendChild(inputCheck);
+  li.appendChild(label);
+  li.appendChild(span);
+  li.appendChild(div);
+  todosContainer.appendChild(li);
+  const todo = {
+    index,
+    checked: checked >= 0 ? checked : 0,
+    content,
+  };
+  todos.push(todo);
+  if (checked === 1) {
+    inputCheck.setAttribute("checked", checked);
+    label.setAttribute("class", "checked");
+  }
+  saveStorage();
+}
+```
+
+> saveStorage()는 실행이 될경우 배열인 todos의 데이터를 string 타입으로 변환 후 localStorage에 저장합니다.
+
+```js
+const TODOS = "todos";
+
+function saveStorage() {
+  const todosString = JSON.stringify(todos);
+  localStorage.setItem(TODOS, todosString);
+}
+```
+
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdE2G7x%2FbtqVIatavvp%2F5ahK4kmxnS1aSxX265Ug21%2Fimg.gif
+"/></p>
+
+> edit버튼을 클릭할 경우 target 데이터를 이용하여 수정을 하게됩니다.  
+> 이때 수정된 텍스트가 공백일경우 원래의 데이터를 리턴하게됩니다.
+
+```js
+function editList(target) {
+  const btnContainer = target.parentNode;
+  const targetList = btnContainer.parentNode;
+  const content = targetList.querySelector(
+    " .container-bottom--container__container--content"
+  );
+  const selection = window.getSelection();
+  content.setAttribute("contenteditable", true);
+  selection.selectAllChildren(content);
+  selection.collapseToEnd();
+  content.focus();
+  content.addEventListener("keypress", (e) => {
+    if (e.keyCode === 13) {
+      if (content.innerText == "" || content.innerText.trim("") == "") {
+        content.innerText = todos[targetList.dataset.id - 1].content;
+        return;
+      }
+      content.setAttribute("contenteditable", false);
+      todos[targetList.dataset.id - 1].content = content.innerText;
+      saveStorage();
+    }
+  });
+  content.addEventListener("blur", () => {
+    if (content.innerText == "" || content.innerText.trim("") == "") {
+      content.innerText = todos[targetList.dataset.id - 1].content;
+      return;
+    }
+    content.setAttribute("contenteditable", false);
+    todos[targetList.dataset.id - 1].content = content.innerText;
+    saveStorage();
+  });
+}
+```
+
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FoP2xe%2FbtqVAJpDsyk%2FK7qiDNVK31ekSMKj0hROL1%2Fimg.gif"/></p>
+
+> 리스트의 체크버튼을 클릭시 checked class를 추가하며 saveStorage()를 실행합니다.
+
+```js
+function checkList(target) {
+  if (!target.classList.contains("checked")) {
+    target.classList.add("checked");
+    todos[target.dataset.id - 1].checked = 1;
+    saveStorage();
+  } else {
+    target.classList.remove("checked");
+    todos[target.dataset.id - 1].checked = 0;
+    saveStorage();
+  }
+}
+```
+
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FQERCq%2FbtqVJRUaNFQ%2FvPsPkW0k8QS3V78xdYaXek%2Fimg.gif"/></p>
+
+> delete버튼을 누르게 되면 deleteList()을 실행하며 target 데이터를 이용하여 해당리스트를 삭제합니다.  
+> 이후 todos 배열에 삭제된 리스트의 인덱스와 일치하는 데이터를 제외한 나머지 데이터를 리턴합니다.  
+> 리턴된 데이터를 todos로 업데이트를 한 후 saveStorage()를 실행합니다.  
+> todos의 배열이 빈배열이 될 경우 다시 "Make Your List 👇" 텍스트를 보여줍니다.
+
+```js
+function deleteList(target) {
+  const btnContainer = target.parentNode;
+  const targetList = btnContainer.parentNode;
+  todosContainer.removeChild(targetList);
+  const deleteTodos = todos.filter((todo) => {
+    return todo.index !== parseInt(targetList.dataset.id);
+  });
+  todos = deleteTodos;
+  if (todos.length <= 0) {
+    noList.classList.remove("hide");
+  }
+  saveStorage();
+}
 ```
 
 ---

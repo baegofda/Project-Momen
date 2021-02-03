@@ -124,7 +124,6 @@ function saveList(content, checked) {
     inputCheck.setAttribute("checked", checked);
     label.setAttribute("class", "checked");
   }
-
   saveStorage();
 }
 
