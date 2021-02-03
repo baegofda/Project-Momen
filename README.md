@@ -395,8 +395,27 @@ function createItem(inputValue, target) {
 
 ### **💻 코드살펴보기**
 
-```js
+> 실시간 시간 데이터를 받아서 업데이트를 하고있으며  
+> 시간이 한자리가 될 경우 0을 추가로 보여주고 있습니다.
 
+```js
+const time = document.querySelector(".container-top--time");
+
+function timeHandler() {
+  const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  time.innerHTML = `${hours < 10 ? `0${hours}` : hours}:${
+    minutes < 10 ? `0${minutes}` : minutes
+  }`;
+}
+
+function init() {
+  timeHandler();
+  setInterval(timeHandler, 60000);
+}
+
+init();
 ```
 
 ---
