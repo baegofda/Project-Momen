@@ -13,10 +13,10 @@
 
 ## **🧰 사용기술**
 
-- HTML, CSS, JAVSCRIPT(Fetch API, Geolocation API), Local Storage
-- OpenWeatherMap API
-- Unsplash API
-- Quotable API
+- HTML, CSS, JAVSCRIPT(Fetch API, Geolocation API - 지역정보), Local Storage
+- OpenWeatherMap API, erikflowers icon (날씨 업데이트)
+- Unsplash API (배경 업데이트)
+- Quotable API (명언 업데이트)
 
 ## **📅 소요기간**
 
@@ -371,8 +371,87 @@ function createItem(inputValue, target) {
 
 ### **💻 코드살펴보기**
 
-```js
+> 위치 제공동의에 수락할 경우 getWeather()을 호출하고 ccordsObj를 인자로 넣어줍니다.
 
+```js
+function succCoordsHandle(position) {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+  const coordsObj = {
+    latitude,
+    longitude,
+  };
+  getWeather(coordsObj);
+  saveCoords(coordsObj);
+}
+```
+
+> getWeather()은 OpenWeatherMap API를 사용하여 날씨 정보를 업데이트 하고있으며  
+> 매개변수 coords를 기반으로 해당 지역의 날씨 정보를 불러옵니다.
+> 이후 받은 날씨 데이터를 createWeather()에 인자로 넣어줍니다.
+
+```js
+function getWeather(coords) {
+  const lat = coords.latitude;
+  const lon = coords.longitude;
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${WEATHER_KEY}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((json) => createWeather(json))
+    .catch((error) => console.log("error", error));
+}
+```
+
+> createWeather()은 매개변수 weather의 데이터를 기반으로 날씨정보를 제공하며  
+> 해당지역의 지역이름, 기온, 날씨상태를 제공합니다.
+
+```js
+function createWeather(weather) {
+  const textTemp = document.querySelector(".header__weather--temperature");
+  const textLoaction = document.querySelector(".header__weather--location");
+  const weatherIcon = document.querySelector(".header__weather--ico");
+  const weatherContainer = document.querySelector(
+    ".header__weather--container"
+  );
+  const temp = weather.main.temp;
+  const name = weather.name;
+  const status = weather.weather[0].id;
+  const weatherTitle = weather.weather[0].description;
+  const sunrise = weather.sys.sunrise;
+  const sunset = weather.sys.sunset;
+  const getTime = new Date().getTime();
+  const str = getTime.toString();
+  const substr = str.substring(0, 10);
+  const number = Number(substr);
+  textTemp.innerText = `${temp}°`;
+  textLoaction.innerText = name;
+  textLoaction.setAttribute("title", `${name}`);
+  weatherIcon.setAttribute("title", `${weatherTitle}`);
+  weatherContainer.setAttribute("title", `${temp}°`);
+  if (number >= sunrise && number < sunset) {
+    weatherIcon.classList.add(`wi-owm-day-${status}`);
+  } else {
+    weatherIcon.classList.add(`wi-owm-night-${status}`);
+  }
+}
+```
+
+> 기본 icon를 사용하지않고 erikflowers를 통한 아이콘을 업데이트하고있으며  
+> 현재 시간과 업데이트 기준의 일출, 일몰 시간을 비교하여 낮과 밤의 아이콘을 구분하여 제공합니다.
+
+```js
+if (number >= sunrise && number < sunset) {
+  weatherIcon.classList.add(`wi-owm-day-${status}`);
+} else {
+  weatherIcon.classList.add(`wi-owm-night-${status}`);
+}
 ```
 
 ---
