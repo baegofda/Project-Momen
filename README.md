@@ -537,8 +537,71 @@ init();
 
 ### **💻 코드살펴보기**
 
-```js
+> 배경은 Unsplash API를 사용하여 업데이트 하고 있습니다.  
+> 페이지 로드시 loadImages()를 호출하고 Unsplash에서 받아온 배경 데이터를  
+> imageHandle()과 infoHandle()에 인자값으로 전달합니다.
 
+```js
+function loadImages() {
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  fetch(
+    `https://api.unsplash.com/search/photos/?query=nature&color=black&orientation=landscape&client_id=${IMAGE_KEY}`,
+    requestOptions
+  )
+    .then((res) => res.json())
+    .then((json) => {
+      const images = json.results;
+      const index = Math.floor(Math.random() * images.length);
+      const img = images[index];
+      imageHandle(img);
+      infoHandle(img);
+    })
+    .catch((err) => console.log("err", err));
+}
+
+function init() {
+  loadImages();
+}
+
+init();
+```
+
+<p align="center">
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FDFvxq%2FbtqVJRGCbNu%2FgMoOfijQgoiEKVy1kyw6tK%2Fimg.gif"/></p>
+
+> infoHandle()은 매개변수 info를 이용하여 배경에대한 상세 정보를 제공합니다.  
+> 배경의 장소 제공, 배경 업로드 작가의 정보를 제공합니다.  
+> 또 배경 원본의 링크를 제공하며 클릭시 해당 페이지로 이동합니다.
+
+```js
+function infoHandle(info) {
+  const description = document.querySelector(".container-bottom--location");
+  const locationText = document.querySelector(".bg-location");
+  const userText = document.querySelector(".bg-user");
+  const link = info.links.html;
+  const name = info.user.name;
+  let location = info.user.location;
+  if (location === null) {
+    location = "Unsplash landscape";
+  }
+  description.setAttribute("href", `${link}`);
+  locationText.innerText = `${location}`;
+  userText.innerText = `by ${name}`;
+}
+```
+
+> imageHandle()은 매개변수 info를 이용하여 배경의 url을 업데이트 합니다.
+
+```js
+function imageHandle(img) {
+  const body = document.querySelector("body");
+  const url = img.urls.regular;
+  body.style.backgroundImage = `url("${url}")`;
+}
 ```
 
 ---
