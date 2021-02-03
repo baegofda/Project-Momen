@@ -29,7 +29,7 @@
 
 1. 최초 페이지 방문시 사용자의 위치정보제공 동의여부와 시계 아래에 이름 입력창 표출
 2. 제공 동의시 우측상단 날씨정보 제공(지역이름, 기온, 날씨아이콘)
-3. 아이디 입력시 입력창 숨김 저장된 이름 표출과 수정기능 제공
+3. 이름 입력시 입력창 숨김 저장된 이름 표출과 수정기능 제공
 4. 실시간 시간정보 제공
 5. 페이지 방문시 배경 & 배경 정보 변경
 6. 페이지 방문시 하단 중앙의 명언 변경
@@ -152,6 +152,144 @@ function errLoacitonHandle() {
 
 ### **💻 코드살펴보기 (이름입력창)**
 
+> 최초 방문을 시도한 기기이거나 정보가 없을경우에는 initName()를 호출하게됩니다.
+
+```js
+function loadText() {
+  const loadedName = localStorage.getItem(NAME);
+  if (loadedName === null) {
+    initName();
+    return;
+  } else {
+    createItem(loadedName, "greeting");
+  }
+}
+
+function init() {
+  loadText();
+  textContainer.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const target = e.target;
+    handleSubmit(target);
+  });
+  textContainer.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.dataset.type === "edit") editItem(target);
+  });
+}
+
+init();
+```
+
+> initName()이 호출이 되면 이름을 입력하는 인풋의 class에 hide가 삭제가되며 나타나게되고
+> 수정버튼의 class에 hide가 추가가 되어 사라지게 됩니다.
+
+```js
+function initName() {
+  greetInput.classList.remove("hide");
+  greetBtn.classList.add("hide");
+}
+```
+
+---
+
+### **2. 제공 동의시 우측상단 날씨정보 제공(지역이름, 기온, 날씨아이콘)**
+
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FKvRwQ%2FbtqUzwKW4SJ%2Fn4FhWU6yljPcoGWAvvxGWk%2Fimg.jpg"/></p>
+
+### **💻 코드살펴보기**
+
+> 위치 제공동의에 수락할 경우 getWeather()을 호출하고 ccordsObj를 인자로 넣어줍니다.
+
+```js
+function succCoordsHandle(position) {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+  const coordsObj = {
+    latitude,
+    longitude,
+  };
+  getWeather(coordsObj);
+  saveCoords(coordsObj);
+}
+```
+
+> getWeather()은 OpenWeatherMap API를 사용하여 날씨 정보를 업데이트 하고있으며  
+> 매개변수 coords를 기반으로 해당 지역의 날씨 정보를 불러옵니다.
+> 이후 받은 날씨 데이터를 createWeather()에 인자로 넣어줍니다.
+
+```js
+function getWeather(coords) {
+  const lat = coords.latitude;
+  const lon = coords.longitude;
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${WEATHER_KEY}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((json) => createWeather(json))
+    .catch((error) => console.log("error", error));
+}
+```
+
+> createWeather()은 매개변수 weather의 데이터를 기반으로 날씨정보를 제공하며  
+> 해당지역의 지역이름, 기온, 날씨상태를 제공합니다.
+
+```js
+function createWeather(weather) {
+  const textTemp = document.querySelector(".header__weather--temperature");
+  const textLoaction = document.querySelector(".header__weather--location");
+  const weatherIcon = document.querySelector(".header__weather--ico");
+  const weatherContainer = document.querySelector(
+    ".header__weather--container"
+  );
+  const temp = weather.main.temp;
+  const name = weather.name;
+  const status = weather.weather[0].id;
+  const weatherTitle = weather.weather[0].description;
+  const sunrise = weather.sys.sunrise;
+  const sunset = weather.sys.sunset;
+  const getTime = new Date().getTime();
+  const str = getTime.toString();
+  const substr = str.substring(0, 10);
+  const number = Number(substr);
+  textTemp.innerText = `${temp}°`;
+  textLoaction.innerText = name;
+  textLoaction.setAttribute("title", `${name}`);
+  weatherIcon.setAttribute("title", `${weatherTitle}`);
+  weatherContainer.setAttribute("title", `${temp}°`);
+  if (number >= sunrise && number < sunset) {
+    weatherIcon.classList.add(`wi-owm-day-${status}`);
+  } else {
+    weatherIcon.classList.add(`wi-owm-night-${status}`);
+  }
+}
+```
+
+> 기본 icon를 사용하지않고 erikflowers를 통한 아이콘을 업데이트하고있으며  
+> 현재 시간과 업데이트 기준의 일출, 일몰 시간을 비교하여 낮과 밤의 아이콘을 구분하여 제공합니다.
+
+```js
+if (number >= sunrise && number < sunset) {
+  weatherIcon.classList.add(`wi-owm-day-${status}`);
+} else {
+  weatherIcon.classList.add(`wi-owm-night-${status}`);
+}
+```
+
+---
+
+### **3. 이름 입력시 입력창 숨김 저장된 이름 표출과 수정기능 제공**
+
+<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmtZyq%2FbtqVIJWnu1M%2FsnTmUhT4zUsHFWgGvCSBHk%2Fimg.gif"/></p>
+
+### **💻 코드살펴보기**
+
 > 이름 입력 창의 경우 localStorage에 값이 있으면 입력창이 사라지고 저장된값이 표출되고  
 > 문구가 바뀌며 수정 버튼이 나타납니다.
 >
@@ -254,45 +392,6 @@ function init() {
 init();
 ```
 
-> 최초 방문을 시도한 기기이거나 정보가 없을경우에는 initName()를 호출하게됩니다.
-
-```js
-function loadText() {
-  const loadedName = localStorage.getItem(NAME);
-  if (loadedName === null) {
-    initName();
-    return;
-  } else {
-    createItem(loadedName, "greeting");
-  }
-}
-
-function init() {
-  loadText();
-  textContainer.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const target = e.target;
-    handleSubmit(target);
-  });
-  textContainer.addEventListener("click", (e) => {
-    const target = e.target;
-    if (target.dataset.type === "edit") editItem(target);
-  });
-}
-
-init();
-```
-
-> initName()이 호출이 되면 이름을 입력하는 인풋의 class에 hide가 삭제가되며 나타나게되고
-> 수정버튼의 class에 hide가 추가가 되어 사라지게 됩니다.
-
-```js
-function initName() {
-  greetInput.classList.remove("hide");
-  greetBtn.classList.add("hide");
-}
-```
-
 > 인풋창에 submit 이벤트가 발생시 handleSubmit()을 호출하고 타켓의 정보를 인자값으로 전달합니다.
 
 ```js
@@ -363,107 +462,38 @@ function createItem(inputValue, target) {
 }
 ```
 
----
-
-### **2. 제공 동의시 우측상단 날씨정보 제공(지역이름, 기온, 날씨아이콘)**
-
-<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FKvRwQ%2FbtqUzwKW4SJ%2Fn4FhWU6yljPcoGWAvvxGWk%2Fimg.jpg"/></p>
-
-### **💻 코드살펴보기**
-
-> 위치 제공동의에 수락할 경우 getWeather()을 호출하고 ccordsObj를 인자로 넣어줍니다.
+> 수정버튼을 클릭시 editItem()을 호출하며 매개변수 target을 이용합니다.
+> 수정된 이름이 공백일경우엔 원래의 텍스트를 불러오게 되어있습니다.
 
 ```js
-function succCoordsHandle(position) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
-  const coordsObj = {
-    latitude,
-    longitude,
-  };
-  getWeather(coordsObj);
-  saveCoords(coordsObj);
+function editItem(target) {
+  const formContainer = target.parentNode;
+  const formName = formContainer.getAttribute("name");
+  const formText = document.querySelector(`.container-top__${formName}--name`);
+  const selection = window.getSelection();
+  formText.setAttribute("contenteditable", true);
+  selection.selectAllChildren(formText);
+  selection.collapseToEnd();
+  formText.focus();
+  formText.addEventListener("keypress", (e) => {
+    if (e.keyCode === 13) {
+      if (formText.innerText == "" || formText.innerText.trim("") == "") {
+        loadText();
+        return;
+      }
+      formText.setAttribute("contenteditable", false);
+      saveItem(formText.innerText, formName);
+    }
+  });
+  formText.addEventListener("blur", () => {
+    if (formText.innerText == "" || formText.innerText.trim("") == "") {
+      loadText();
+      return;
+    }
+    formText.setAttribute("contenteditable", false);
+    saveItem(formText.innerText, formName);
+  });
 }
-```
-
-> getWeather()은 OpenWeatherMap API를 사용하여 날씨 정보를 업데이트 하고있으며  
-> 매개변수 coords를 기반으로 해당 지역의 날씨 정보를 불러옵니다.
-> 이후 받은 날씨 데이터를 createWeather()에 인자로 넣어줍니다.
-
-```js
-function getWeather(coords) {
-  const lat = coords.latitude;
-  const lon = coords.longitude;
-  const requestOptions = {
-    method: "GET",
-    redirect: "follow",
-  };
-
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${WEATHER_KEY}`,
-    requestOptions
-  )
-    .then((response) => response.json())
-    .then((json) => createWeather(json))
-    .catch((error) => console.log("error", error));
-}
-```
-
-> createWeather()은 매개변수 weather의 데이터를 기반으로 날씨정보를 제공하며  
-> 해당지역의 지역이름, 기온, 날씨상태를 제공합니다.
-
-```js
-function createWeather(weather) {
-  const textTemp = document.querySelector(".header__weather--temperature");
-  const textLoaction = document.querySelector(".header__weather--location");
-  const weatherIcon = document.querySelector(".header__weather--ico");
-  const weatherContainer = document.querySelector(
-    ".header__weather--container"
-  );
-  const temp = weather.main.temp;
-  const name = weather.name;
-  const status = weather.weather[0].id;
-  const weatherTitle = weather.weather[0].description;
-  const sunrise = weather.sys.sunrise;
-  const sunset = weather.sys.sunset;
-  const getTime = new Date().getTime();
-  const str = getTime.toString();
-  const substr = str.substring(0, 10);
-  const number = Number(substr);
-  textTemp.innerText = `${temp}°`;
-  textLoaction.innerText = name;
-  textLoaction.setAttribute("title", `${name}`);
-  weatherIcon.setAttribute("title", `${weatherTitle}`);
-  weatherContainer.setAttribute("title", `${temp}°`);
-  if (number >= sunrise && number < sunset) {
-    weatherIcon.classList.add(`wi-owm-day-${status}`);
-  } else {
-    weatherIcon.classList.add(`wi-owm-night-${status}`);
-  }
-}
-```
-
-> 기본 icon를 사용하지않고 erikflowers를 통한 아이콘을 업데이트하고있으며  
-> 현재 시간과 업데이트 기준의 일출, 일몰 시간을 비교하여 낮과 밤의 아이콘을 구분하여 제공합니다.
-
-```js
-if (number >= sunrise && number < sunset) {
-  weatherIcon.classList.add(`wi-owm-day-${status}`);
-} else {
-  weatherIcon.classList.add(`wi-owm-night-${status}`);
-}
-```
-
----
-
-### **3. 아이디 입력시 입력창 숨김 저장된 이름 표출과 수정기능 제공**
-
-<p align="center"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcw3ckm%2FbtqUtp7ke4y%2FbkdQAB86Sb4Wsu47KjWTF1%2Fimg.jpg"/></p>
-
-### **💻 코드살펴보기**
-
-```js
-
 ```
 
 ---
