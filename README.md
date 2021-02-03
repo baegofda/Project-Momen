@@ -45,47 +45,6 @@
 
 > 날씨 정보를 제공을 위한 사용자의 위치정보를 얻기위해서
 > javascript의 Geolocation API를 사용하였습니다.
-
-```js
-const COORDS = "coords";
-
-function saveCoords(coordsObj) {
-  localStorage.setItem(COORDS, JSON.stringify(coordsObj));
-}
-
-function succCoordsHandle(position) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
-  const coordsObj = {
-    latitude,
-    longitude,
-  };
-  getWeather(coordsObj);
-  saveCoords(coordsObj);
-}
-
-function errLoacitonHandle() {
-  console.log("cant access geo location");
-}
-
-function loadCoords() {
-  navigator.geolocation.getCurrentPosition(succCoordsHandle, errLoacitonHandle);
-}
-
-function init() {
-  const coords = localStorage.getItem(COORDS);
-  if (coords === null) {
-    loadCoords();
-  } else {
-    const coordsParse = JSON.parse(coords);
-    getWeather(coordsParse);
-    setInterval(() => getWeather(coordsParse), 60000);
-  }
-}
-
-init();
-```
-
 > 최초 방문을 시도한 기기이거나 정보가 없을경우에는 loadCoords()를 호출하게됩니다.
 
 ```js
@@ -296,102 +255,6 @@ if (number >= sunrise && number < sunset) {
 > > 이름 입력 코드의 경우 본래 이름 말고도 다른 텍스트 정보를 받아서 저장을 하기위해  
 > > 이벤트 값을 받아 분기로 처리하기위해 작성을 하였으나 현재는 이름 입력만 남겨둔 상태입니다.
 
-```js
-const textContainer = document.querySelector(".container-top");
-const greeting = document.querySelector("form[name='greeting']");
-const greetText = document.querySelector(".container-top__greeting--text");
-const greetInput = document.querySelector(".container-top__greeting--input");
-const greetBtn = document.querySelector(".container-top__greeting--edit");
-const NAME = "greeting";
-
-function editItem(target) {
-  const formContainer = target.parentNode;
-  const formName = formContainer.getAttribute("name");
-  const formText = document.querySelector(`.container-top__${formName}--name`);
-  const selection = window.getSelection();
-  formText.setAttribute("contenteditable", true);
-  selection.selectAllChildren(formText);
-  selection.collapseToEnd();
-  formText.focus();
-  formText.addEventListener("keypress", (e) => {
-    if (e.keyCode === 13) {
-      if (formText.innerText == "" || formText.innerText.trim("") == "") {
-        loadText();
-        return;
-      }
-      formText.setAttribute("contenteditable", false);
-      saveItem(formText.innerText, formName);
-    }
-  });
-  formText.addEventListener("blur", () => {
-    if (formText.innerText == "" || formText.innerText.trim("") == "") {
-      loadText();
-      return;
-    }
-    formText.setAttribute("contenteditable", false);
-    saveItem(formText.innerText, formName);
-  });
-}
-
-function saveItem(text, target) {
-  if (target === greeting || target === "greeting") {
-    localStorage.setItem(NAME, text);
-  }
-}
-
-function createItem(inputValue, target) {
-  const div = document.createElement("div");
-  if (target === greeting || target === "greeting") {
-    greetInput.classList.add("hide");
-    greetBtn.classList.remove("hide");
-    div.setAttribute("class", "container-top__greeting--name");
-    div.innerText = `${inputValue}`;
-    greetText.innerText = "Have A Nice Day !";
-    greetText.appendChild(div);
-  }
-}
-
-function handleSubmit(target) {
-  const input = target.querySelector("input[type=text]");
-  const inputValue = input.value;
-  if (inputValue === " ") {
-    return;
-  }
-  saveItem(inputValue, target);
-  createItem(inputValue, target);
-}
-
-function initName() {
-  greetInput.classList.remove("hide");
-  greetBtn.classList.add("hide");
-}
-
-function loadText() {
-  const loadedName = localStorage.getItem(NAME);
-  if (loadedName === null) {
-    initName();
-    return;
-  } else {
-    createItem(loadedName, "greeting");
-  }
-}
-
-function init() {
-  loadText();
-  textContainer.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const target = e.target;
-    handleSubmit(target);
-  });
-  textContainer.addEventListener("click", (e) => {
-    const target = e.target;
-    if (target.dataset.type === "edit") editItem(target);
-  });
-}
-
-init();
-```
-
 > 인풋창에 submit 이벤트가 발생시 handleSubmit()을 호출하고 타켓의 정보를 인자값으로 전달합니다.
 
 ```js
@@ -411,7 +274,7 @@ function init() {
 init();
 ```
 
-> handleSubmit()는 매개변수 target에 input[type=text]를 input이라는 변수에 할당을 하고  
+> handleSubmit()는 매개변수 target의 input[type=text]를 input이라는 변수에 할당을 하고  
 > 만약 inputValue가 공백일 경우 리턴을 합니다.  
 > 아니면 input의 value를 inputValue 변수에 할당을 하여 saveItem(), createItem()함수에 인자값으로 전달합니다.
 
@@ -918,3 +781,9 @@ headerForm.addEventListener("submit", (e) => {
 ---
 
 ## **👋 마무리 소감**
+
+> Local Storage에 대한 이해를 할수있는 기회였고 여러 API를 사용하여 정보를 제공함으로서  
+> Postman을 이용한 데이터 확인과 API사용을 위한 문서 확인에대한 중요성을 느낄수 있었다.  
+> 또 날씨 데이터 제공에 대한 정확성을 위해 기본으로 API에서 제공되는 아이콘대신  
+> 외부의 아이콘을 적용하기 위해 제공된데이터에대한 해석과 밤, 낮의 구분을 위한 처리 방법등  
+> 주어진 데이터를 활용하여 원하는 형태로서의 정보를 제공하기 위한 생각을 해볼 수 있는 기회였다.
